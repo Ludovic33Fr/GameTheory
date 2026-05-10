@@ -1,3 +1,5 @@
+import { AppRouter } from './routes';
+
 export default function App() {
-  return <div>GameTheory site — bootstrap OK</div>;
+  return <AppRouter />;
 }
