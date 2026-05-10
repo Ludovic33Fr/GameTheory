@@ -1,0 +1,2 @@
+.block { display: block; padding: var(--space-3) 0; overflow-x: auto; }
+.inline { display: inline-block; }
