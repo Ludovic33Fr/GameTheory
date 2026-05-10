@@ -32,7 +32,7 @@ function Demo() {
   );
 
   return (
-    <div style={{ display: 'grid', gap: 'var(--space-6)', gridTemplateColumns: 'minmax(0,1fr) minmax(0,1fr)' }}>
+    <div className="demoSplit">
       <div style={{ background: 'var(--bg-elevated)', border: '1px solid var(--border-default)', borderRadius: 'var(--radius-lg)', padding: 'var(--space-4)' }}>
         <div className="label-mono">Stratégie du bot</div>
         <p style={{ color: 'var(--text-secondary)', fontSize: 'var(--text-sm)', margin: 'var(--space-2) 0 var(--space-3)' }}>

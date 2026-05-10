@@ -18,7 +18,7 @@ function Demo() {
   const maxP = Math.max(...points.map((p) => p.P));
 
   return (
-    <div style={{ display: 'grid', gap: 'var(--space-6)', gridTemplateColumns: 'minmax(0,1fr) minmax(0,1.4fr)' }}>
+    <div className="demoSplit">
       <div style={{ background: 'var(--bg-elevated)', border: '1px solid var(--border-default)', borderRadius: 'var(--radius-lg)', padding: 'var(--space-4)' }}>
         <div className="label-mono">Paramètres</div>
         <div style={{ marginTop: 'var(--space-3)' }}>
