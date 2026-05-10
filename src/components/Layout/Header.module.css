@@ -1,0 +1,27 @@
+.header {
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  background: rgba(10, 10, 15, 0.85);
+  backdrop-filter: blur(8px);
+  border-bottom: 1px solid var(--border-subtle);
+  padding: var(--space-3) var(--space-6);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: var(--text-sm);
+}
+.brand {
+  color: var(--accent-primary);
+  font-weight: 700;
+  letter-spacing: 0.05em;
+}
+.brand::before { content: '◉ '; }
+.crumbs { display: flex; gap: var(--space-3); align-items: center; color: var(--text-secondary); }
+.crumbSep { color: var(--text-muted); }
+.crumbCurrent { color: var(--text-primary); }
+.nav { display: flex; gap: var(--space-4); color: var(--text-secondary); }
+.nav a:hover { color: var(--text-primary); }
+@media (max-width: 640px) {
+  .header { flex-direction: column; gap: var(--space-2); padding: var(--space-3); }
+}
