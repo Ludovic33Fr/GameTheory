@@ -1,0 +1,1 @@
+export { PayoffMatrix } from './PayoffMatrix';
