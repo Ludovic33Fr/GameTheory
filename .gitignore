@@ -35,3 +35,6 @@ coverage/
 
 # Vite cache
 .vite/
+
+# Local Claude Code settings (per-machine permissions)
+.claude/settings.local.json
