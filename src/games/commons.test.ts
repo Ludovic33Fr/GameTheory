@@ -11,7 +11,9 @@ describe('commons model', () => {
   it('with capacity exceeded, productivity collapses', () => {
     const r = commonsOutcome({ herders: 10, perHerder: 30, capacity: 100 });
     expect(r.totalCattle).toBe(300);
-    expect(r.collectiveProductivity).toBeLessThan(commonsOutcome({ herders: 10, perHerder: 10, capacity: 100 }).collectiveProductivity);
+    // Reference: a load below capacity has strictly positive productivity;
+    // overload collapses to 0.
+    expect(r.collectiveProductivity).toBeLessThan(commonsOutcome({ herders: 10, perHerder: 5, capacity: 100 }).collectiveProductivity);
   });
 
   it('individual return is total productivity divided by herders', () => {
