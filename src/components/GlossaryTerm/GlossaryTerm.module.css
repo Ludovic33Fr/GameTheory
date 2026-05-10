@@ -1,0 +1,24 @@
+.term {
+  border-bottom: 1px dotted var(--accent-primary);
+  cursor: help;
+  color: var(--text-primary);
+  position: relative;
+}
+.tooltip {
+  position: absolute;
+  left: 50%;
+  bottom: calc(100% + 8px);
+  transform: translateX(-50%);
+  background: var(--bg-elevated);
+  border: 1px solid var(--border-default);
+  border-radius: var(--radius-md);
+  padding: var(--space-3);
+  width: max-content;
+  max-width: 280px;
+  font-size: var(--text-sm);
+  color: var(--text-secondary);
+  box-shadow: 0 8px 32px rgba(0,0,0,0.5);
+  z-index: 10;
+  pointer-events: none;
+}
+.tooltip strong { color: var(--text-primary); display: block; margin-bottom: 4px; }
