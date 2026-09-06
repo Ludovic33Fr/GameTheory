@@ -1,5 +1,6 @@
-import { useMemo, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import { ConceptPage } from '../../components/ConceptPage';
+import { useReducedMotion } from '../../hooks/useReducedMotion';
 import { PayoffMatrix } from '../../components/PayoffMatrix';
 import { CumulativeChart } from '../../components/CumulativeChart';
 import { Plate, Pictogram, FlapValue } from '../../components/Sign';
@@ -21,12 +22,17 @@ const LABELS = [
 ];
 
 const ITERATED_STRATEGIES: IteratedStrategy[] = [
-  titForTat,
+  randomStrat,
   grudger,
   alwaysDefect,
   alwaysCooperate,
-  randomStrat,
+  titForTat,
 ];
+
+/** Nombre de tours joués quand une stratégie joue à ta place. */
+const AUTO_ROUNDS = 20;
+/** Cadence de révélation des tours, un volet à la fois. */
+const AUTO_TICK_MS = 90;
 
 interface Round {
   you: string;
@@ -108,8 +114,56 @@ function IteratedPlayground() {
     setHistory((h) => [...h, { you: myMove, opp: oppMove, yourGain: pa, oppGain: pb }]);
   };
 
-  const reset = () => setHistory([]);
+  /* Troisième option : une stratégie joue à ta place pendant AUTO_ROUNDS tours,
+     à la suite de ce qui a déjà été joué. Les tours se révèlent un à un. */
+  const reduced = useReducedMotion();
+  const [myStrategyId, setMyStrategyId] = useState<string>(titForTat.id);
+  const [running, setRunning] = useState(false);
+  const timer = useRef<number | null>(null);
+
+  const stopAuto = () => {
+    if (timer.current !== null) window.clearTimeout(timer.current);
+    timer.current = null;
+    setRunning(false);
+  };
+  useEffect(() => stopAuto, []);
+
+  const runAuto = () => {
+    if (running) return;
+    const me = ITERATED_STRATEGIES.find((s) => s.id === myStrategyId)!;
+    const rounds: Round[] = [];
+    const base: ActionProfile[] = history.map((r) => [r.you, r.opp]);
+    for (let i = 0; i < AUTO_ROUNDS; i++) {
+      const profiles: ActionProfile[] = [...base, ...rounds.map((r): ActionProfile => [r.you, r.opp])];
+      const myMove = me.decide(profiles, 0);
+      const oppMove = strategy.decide(profiles, 1);
+      const [pa, pb] = prisonersDilemma.payoff([myMove, oppMove]);
+      rounds.push({ you: myMove, opp: oppMove, yourGain: pa, oppGain: pb });
+    }
+    if (reduced) {
+      setHistory((h) => [...h, ...rounds]);
+      return;
+    }
+    setRunning(true);
+    let i = 0;
+    const tick = () => {
+      /* On fige le tour avant l'appel : React exécute la mise à jour plus tard,
+         après l'incrément, et lirait sinon la case suivante. */
+      const round = rounds[i];
+      setHistory((h) => [...h, round]);
+      i += 1;
+      if (i < rounds.length) timer.current = window.setTimeout(tick, AUTO_TICK_MS);
+      else stopAuto();
+    };
+    tick();
+  };
+
+  const reset = () => {
+    stopAuto();
+    setHistory([]);
+  };
   const changeStrategy = (id: string) => {
+    stopAuto();
     setStrategyId(id);
     setHistory([]);
   };
@@ -127,9 +181,10 @@ function IteratedPlayground() {
         <h3 className={d.sectionTitle}>Joue plusieurs tours</h3>
       </div>
       <p className={d.hint}>
-        Choisis une stratégie pour l'adversaire, puis joue tour par tour. Les paiements sont
-        des « années de prison » — plus haut sur le graphique = mieux. Changer de stratégie
-        remet le score à zéro.
+        Choisis une stratégie pour l'adversaire, puis joue tour par tour — ou confie ta place
+        à une stratégie pour {AUTO_ROUNDS} tours d'affilée. Les paiements sont des « années
+        de prison » : plus haut sur le graphique = mieux. Changer de stratégie adverse remet
+        le score à zéro.
       </p>
 
       <div className="demoSplit">
@@ -160,16 +215,49 @@ function IteratedPlayground() {
           <div className={d.card}>
             <div className={d.cardTitle}>Joue ton coup</div>
             <div className={d.actions}>
-              <button onClick={() => play('C')} className={d.play}>
+              <button onClick={() => play('C')} className={d.play} disabled={running}>
                 Coopérer
               </button>
-              <button onClick={() => play('D')} className={`${d.play} ${d.playAlt}`}>
+              <button
+                onClick={() => play('D')}
+                className={`${d.play} ${d.playAlt}`}
+                disabled={running}
+              >
                 Trahir
               </button>
               <button onClick={reset} disabled={history.length === 0} className={d.reset}>
                 <Pictogram id="iterated" size={14} />
                 Remettre à zéro
               </button>
+            </div>
+
+            <div className={d.auto}>
+              <label htmlFor="my-strategy" className={d.autoLabel}>
+                Ou laisse une stratégie jouer pour toi
+              </label>
+              <div className={d.autoRow}>
+                <select
+                  id="my-strategy"
+                  className={d.select}
+                  value={myStrategyId}
+                  onChange={(e) => setMyStrategyId(e.target.value)}
+                  disabled={running}
+                >
+                  {ITERATED_STRATEGIES.map((s) => (
+                    <option key={s.id} value={s.id}>
+                      {s.name}
+                    </option>
+                  ))}
+                </select>
+                <button
+                  onClick={runAuto}
+                  disabled={running}
+                  className={d.play}
+                  style={{ flex: 'none' }}
+                >
+                  {running ? 'Tours en cours…' : `Lancer ${AUTO_ROUNDS} tours`}
+                </button>
+              </div>
             </div>
 
             <div className={d.stats}>
