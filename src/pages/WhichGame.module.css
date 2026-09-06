@@ -1,0 +1,320 @@
+/* ---------- Le guichet Renseignements ---------- */
+.head {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  align-items: start;
+  gap: clamp(var(--space-4), 3vw, var(--space-8));
+  padding: clamp(var(--space-8), 5vw, var(--space-12)) var(--gutter);
+  border-bottom: var(--rule);
+}
+.title {
+  font-size: var(--t-display);
+  font-weight: 900;
+  line-height: 0.96;
+  letter-spacing: var(--track-tight);
+  margin: 0;
+  text-wrap: balance;
+}
+.lede {
+  margin-top: var(--space-4);
+  max-width: 54ch;
+  font-size: var(--t-lg);
+  line-height: 1.5;
+  letter-spacing: -0.01em;
+}
+
+/* ---------- La piste des réponses ---------- */
+.trail {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+  padding: var(--space-4) var(--gutter);
+  border-bottom: var(--rule);
+  background: var(--sign-yellow-shade);
+  min-height: 64px;
+}
+.trailLabel {
+  font-size: var(--t-2xs);
+  font-weight: 700;
+  letter-spacing: var(--track-label);
+  text-transform: uppercase;
+  color: var(--ink-yellow-2);
+  margin-right: var(--space-2);
+}
+.trailStep {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  padding: var(--space-2) var(--space-3);
+  border-radius: 6px;
+  background: var(--sign-black);
+  color: var(--sign-yellow);
+  font-size: var(--t-sm);
+  font-weight: 700;
+  transition: background var(--dur-fast) var(--ease-sign);
+}
+.trailStep:hover {
+  background: var(--panel-frame);
+  color: var(--icon-white);
+}
+.trailStepLetter {
+  display: inline-grid;
+  place-items: center;
+  width: 20px;
+  height: 20px;
+  border-radius: 4px;
+  background: var(--sign-yellow);
+  color: var(--sign-black);
+  font-size: var(--t-2xs);
+  font-weight: 900;
+}
+.trailNext {
+  display: inline-grid;
+  place-items: center;
+  width: 28px;
+  height: 28px;
+  border-radius: 6px;
+  box-shadow: inset 0 0 0 2px var(--sign-black);
+  font-size: var(--t-xs);
+  font-weight: 900;
+  color: var(--sign-black);
+  font-variant-numeric: tabular-nums;
+}
+
+/* ---------- La question ---------- */
+.question {
+  padding: clamp(var(--space-8), 5vw, var(--space-12)) var(--gutter) 0;
+  perspective: 900px;
+  /* Laisse la place au panneau suspendu et à la piste des réponses. */
+  scroll-margin-top: 132px;
+}
+.questionInner {
+  transform-origin: center top;
+}
+.questionFlap {
+  animation: flap var(--dur-flap) var(--ease-sign);
+}
+.questionCount {
+  font-size: var(--t-2xs);
+  font-weight: 700;
+  letter-spacing: var(--track-label);
+  text-transform: uppercase;
+  color: var(--ink-yellow-2);
+  margin-bottom: var(--space-3);
+}
+.questionText {
+  font-size: var(--t-2xl);
+  font-weight: 900;
+  line-height: 1.02;
+  letter-spacing: var(--track-tight);
+  margin: 0;
+  max-width: 24ch;
+  text-wrap: balance;
+}
+.questionHint {
+  margin-top: var(--space-3);
+  max-width: 56ch;
+  font-size: var(--t-base);
+  line-height: 1.55;
+  color: var(--ink-yellow-2);
+}
+
+/* ---------- Les réponses : des lignes de destination ---------- */
+.options {
+  margin-top: clamp(var(--space-6), 3vw, var(--space-10));
+  border-top: var(--rule);
+}
+.option {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  align-items: center;
+  gap: clamp(var(--space-4), 2.6vw, var(--space-8));
+  width: 100%;
+  padding: clamp(var(--space-4), 2.2vw, var(--space-6)) var(--gutter);
+  text-align: left;
+  border-bottom: var(--rule);
+  transition: background var(--dur-fast) var(--ease-sign);
+}
+.option:hover,
+.option:focus-visible {
+  background: var(--sign-yellow-lit);
+}
+.letter {
+  display: inline-grid;
+  place-items: center;
+  width: clamp(44px, 5vw, 56px);
+  height: clamp(44px, 5vw, 56px);
+  flex: none;
+  background: var(--sign-black);
+  color: var(--icon-white);
+  border-radius: var(--r-plate);
+  font-size: clamp(20px, 2.4vw, 26px);
+  font-weight: 900;
+}
+.optionLabel {
+  font-size: var(--t-xl);
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  line-height: 1.15;
+  text-wrap: balance;
+}
+.optionExample {
+  display: block;
+  margin-top: var(--space-1);
+  font-size: var(--t-sm);
+  line-height: 1.45;
+  color: var(--ink-yellow-2);
+}
+.optionArrow {
+  transition: transform var(--dur-fast) var(--ease-sign);
+}
+.option:hover .optionArrow,
+.option:focus-visible .optionArrow {
+  transform: translateX(6px);
+}
+
+/* ---------- Retour / recommencer : flèches calées sur les bords ---------- */
+.controls {
+  display: flex;
+  justify-content: space-between;
+  align-items: stretch;
+  gap: var(--space-4);
+  border-bottom: var(--rule);
+}
+.control {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-3);
+  padding: var(--space-5) var(--gutter);
+  font-size: var(--t-sm);
+  font-weight: 700;
+  color: var(--ink-yellow-2);
+  transition: color var(--dur-fast) var(--ease-sign), background var(--dur-fast) var(--ease-sign);
+}
+.control:hover:not(:disabled) {
+  color: var(--ink-yellow);
+  background: var(--sign-yellow-lit);
+}
+.control:disabled {
+  cursor: default;
+  opacity: 0.45;
+}
+.keyHint {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  margin-left: auto;
+  padding: var(--space-5) var(--gutter);
+  font-size: var(--t-xs);
+  font-weight: 600;
+  color: var(--ink-yellow-2);
+}
+.key {
+  display: inline-grid;
+  place-items: center;
+  min-width: 22px;
+  height: 22px;
+  padding: 0 5px;
+  border-radius: 4px;
+  box-shadow: inset 0 0 0 2px var(--ink-yellow-2);
+  font-size: var(--t-2xs);
+  font-weight: 900;
+  color: var(--ink-yellow);
+}
+
+/* ---------- Le répertoire des jeux ---------- */
+.directoryHead {
+  display: flex;
+  align-items: center;
+  gap: var(--space-4);
+  padding: var(--space-8) var(--gutter) var(--space-4);
+}
+.directoryTitle {
+  font-size: var(--t-xl);
+  font-weight: 900;
+  letter-spacing: var(--track-tight);
+  line-height: 1;
+}
+.directoryNote {
+  margin-left: auto;
+  font-size: var(--t-sm);
+  color: var(--ink-yellow-2);
+}
+.directory {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  border-top: var(--rule);
+  border-left: var(--rule);
+  margin-left: var(--gutter);
+  margin-right: var(--gutter);
+  margin-bottom: clamp(var(--space-8), 5vw, var(--space-12));
+}
+.directoryItem {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  padding: var(--space-4);
+  border-right: var(--rule);
+  border-bottom: var(--rule);
+  font-size: var(--t-sm);
+  font-weight: 700;
+  line-height: 1.2;
+  transition: background var(--dur-fast) var(--ease-sign);
+}
+.directoryItem:hover {
+  background: var(--sign-yellow-lit);
+}
+.directoryGate {
+  flex: none;
+  min-width: 2.2ch;
+  font-size: var(--t-base);
+  font-weight: 900;
+  letter-spacing: -0.03em;
+  font-variant-numeric: tabular-nums;
+  color: var(--ink-yellow-2);
+}
+.directoryMark {
+  flex: none;
+  width: 10px;
+  height: 10px;
+  background: var(--sign-black);
+  border-radius: 2px;
+}
+.directoryMarkOnSite {
+  background: var(--icon-white);
+  box-shadow: inset 0 0 0 2px var(--sign-black);
+}
+
+@media (max-width: 860px) {
+  .directoryHead {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--space-2);
+  }
+  .directoryNote {
+    margin-left: 0;
+  }
+  .keyHint {
+    display: none;
+  }
+}
+@media (max-width: 620px) {
+  .head {
+    grid-template-columns: 1fr;
+    gap: var(--space-3);
+  }
+  .option {
+    gap: var(--space-3);
+  }
+  .optionLabel {
+    font-size: var(--t-lg);
+  }
+  .controls {
+    flex-direction: column;
+    gap: 0;
+  }
+  .control + .control {
+    border-top: var(--rule);
+  }
+}

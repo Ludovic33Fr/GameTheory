@@ -1,88 +1,189 @@
-import { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
-import { motion } from 'framer-motion';
-import { CONCEPT_ROUTES, type ConceptId } from '../../routes';
+import { useNavigate } from 'react-router-dom';
+import { Pictogram } from '../Sign';
+import {
+  CONCEPT_EDGES,
+  CONCEPT_ROUTES,
+  EDGE_KIND_LABEL,
+  conceptById,
+  connectionsOf,
+  type ConceptId,
+  type EdgeKind,
+} from '../../content/concepts';
 import styles from './HubMap.module.css';
 
-interface NodePos { id: ConceptId; x: number; y: number; }
-const NODES: NodePos[] = [
-  { id: 'prisoners',  x: 200, y: 320 },
-  { id: 'nash',       x: 460, y: 220 },
-  { id: 'mixed',      x: 700, y: 320 },
-  { id: 'iterated',   x: 200, y: 140 },
-  { id: 'sequential', x: 460, y: 60  },
-  { id: 'commons',    x: 700, y: 140 },
-];
+const W = 900;
+const H = 440;
+const PLATE_W = 196;
+const PLATE_H = 66;
 
-interface Edge { from: ConceptId; to: ConceptId; }
-const EDGES: Edge[] = [
-  { from: 'prisoners', to: 'nash' },
-  { from: 'prisoners', to: 'iterated' },
-  { from: 'prisoners', to: 'commons' },
-  { from: 'mixed', to: 'nash' },
-  { from: 'sequential', to: 'nash' },
-  { from: 'iterated', to: 'commons' },
-];
+const POS: Record<ConceptId, { x: number; y: number }> = {
+  iterated: { x: 150, y: 66 },
+  sequential: { x: 750, y: 66 },
+  nash: { x: 450, y: 176 },
+  prisoners: { x: 150, y: 286 },
+  mixed: { x: 750, y: 286 },
+  commons: { x: 450, y: 396 },
+};
 
-export function HubMap() {
-  const [hovered, setHovered] = useState<ConceptId | null>(null);
+const EDGE_CLASS: Record<EdgeKind, string> = {
+  exemple: styles.edgeExemple,
+  extension: styles.edgeExtension,
+  repetition: styles.edgeRepetition,
+  echelle: styles.edgeEchelle,
+};
+
+interface HubMapProps {
+  /** Destination mise en avant, partagée avec le panneau des six lignes. */
+  active?: ConceptId | null;
+  onActive?: (id: ConceptId | null) => void;
+}
+
+export function HubMap({ active = null, onActive }: HubMapProps) {
   const navigate = useNavigate();
 
-  const isEdgeHighlighted = (e: Edge) => hovered !== null && (e.from === hovered || e.to === hovered);
+  const isOnEdge = (from: ConceptId, to: ConceptId) =>
+    active !== null && (from === active || to === active);
+
+  const isNodeLinked = (id: ConceptId) =>
+    active === id ||
+    CONCEPT_EDGES.some(
+      (e) => (e.from === active && e.to === id) || (e.to === active && e.from === id)
+    );
 
   return (
     <div className={styles.wrap}>
-      <svg viewBox="0 0 880 400" className={styles.svg} role="img" aria-label="Carte des concepts">
-        {EDGES.map((e, i) => {
-          const a = NODES.find((n) => n.id === e.from)!;
-          const b = NODES.find((n) => n.id === e.to)!;
-          return (
-            <line
-              key={i}
-              x1={a.x}
-              y1={a.y}
-              x2={b.x}
-              y2={b.y}
-              className={`${styles.edge} ${isEdgeHighlighted(e) ? styles.highlighted : ''}`}
-            />
-          );
-        })}
-        {NODES.map((n, i) => {
-          const route = CONCEPT_ROUTES.find((c) => c.id === n.id)!;
-          const isMuted = hovered !== null && hovered !== n.id && !EDGES.some((e) => (e.from === hovered && e.to === n.id) || (e.to === hovered && e.from === n.id));
-          return (
-            <motion.g
-              key={n.id}
-              className={styles.node}
-              initial={{ opacity: 0, scale: 0.8 }}
-              animate={{ opacity: 1, scale: 1 }}
-              transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1], delay: i * 0.05 }}
-              onMouseEnter={() => setHovered(n.id)}
-              onMouseLeave={() => setHovered(null)}
-              onFocus={() => setHovered(n.id)}
-              onBlur={() => setHovered(null)}
-              onClick={() => navigate(route.path)}
-              tabIndex={0}
-              onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') navigate(route.path); }}
-              role="link"
-              aria-label={route.title}
-            >
-              <circle cx={n.x} cy={n.y} r={56} className={styles.nodeCircle} />
-              <text x={n.x} y={n.y - 4} textAnchor="middle" className={`${styles.nodeLabel} ${isMuted ? styles.muted : ''}`}>
-                {route.title.split(' ').slice(0, 2).join(' ')}
-              </text>
-              <text x={n.x} y={n.y + 14} textAnchor="middle" className={`${styles.nodeLabel} ${isMuted ? styles.muted : ''}`}>
-                {route.title.split(' ').slice(2).join(' ')}
-              </text>
-            </motion.g>
-          );
-        })}
-      </svg>
-      <div className={styles.fallback}>
-        {CONCEPT_ROUTES.map((c) => (
-          <Link key={c.id} to={c.path} className={styles.fallbackItem}>{c.title} →</Link>
-        ))}
+      <div className={styles.scroller}>
+        <svg
+          viewBox={`0 0 ${W} ${H}`}
+          className={styles.svg}
+          role="img"
+          aria-label="Plan des six concepts et de leurs correspondances"
+        >
+          {CONCEPT_EDGES.map((e, i) => {
+            const a = POS[e.from];
+            const b = POS[e.to];
+            const lit = isOnEdge(e.from, e.to);
+            const dim = active !== null && !lit;
+            const tone = lit ? styles.edgeLit : dim ? styles.edgeDim : '';
+            return (
+              <g key={i}>
+                <line
+                  x1={a.x}
+                  y1={a.y}
+                  x2={b.x}
+                  y2={b.y}
+                  className={`${styles.edge} ${EDGE_CLASS[e.kind]} ${tone}`}
+                />
+                {e.kind === 'echelle' && (
+                  <line
+                    x1={a.x}
+                    y1={a.y}
+                    x2={b.x}
+                    y2={b.y}
+                    className={`${styles.edge} ${styles.edgeEchelleCore}`}
+                  />
+                )}
+              </g>
+            );
+          })}
+
+          {CONCEPT_ROUTES.map((c) => {
+            const p = POS[c.id];
+            const x = p.x - PLATE_W / 2;
+            const y = p.y - PLATE_H / 2;
+            const dim = active !== null && !isNodeLinked(c.id);
+            return (
+              <a
+                key={c.id}
+                href={c.path}
+                className={`${styles.node} ${active === c.id ? styles.nodeOn : ''} ${
+                  dim ? styles.nodeDim : ''
+                }`}
+                onClick={(e) => {
+                  e.preventDefault();
+                  navigate(c.path);
+                }}
+                onMouseEnter={() => onActive?.(c.id)}
+                onMouseLeave={() => onActive?.(null)}
+                onFocus={() => onActive?.(c.id)}
+                onBlur={() => onActive?.(null)}
+                aria-label={`${c.title}, porte ${c.gate}`}
+              >
+                <rect
+                  x={x - 4}
+                  y={y - 4}
+                  width={PLATE_W + 8}
+                  height={PLATE_H + 8}
+                  rx={12}
+                  className={styles.focusRing}
+                  fill="none"
+                />
+                <rect
+                  x={x}
+                  y={y}
+                  width={PLATE_W}
+                  height={PLATE_H}
+                  rx={8}
+                  className={styles.nodePlate}
+                />
+                <text x={x + 16} y={p.y + 10} className={styles.gate}>
+                  {c.gate}
+                </text>
+                <text x={x + 62} y={p.y - 3} className={styles.title}>
+                  {c.lines[0]}
+                </text>
+                <text x={x + 62} y={p.y + 14} className={styles.title}>
+                  {c.lines[1]}
+                </text>
+              </a>
+            );
+          })}
+        </svg>
       </div>
+
+      <p className={styles.scrollHint}>
+        <Pictogram id="arrowRight" size={14} />
+        Fais glisser le plan pour voir les six destinations
+      </p>
+
+      <ul className={styles.legend}>
+        {(Object.keys(EDGE_KIND_LABEL) as EdgeKind[]).map((kind) => (
+          <li key={kind} className={styles.legendItem}>
+            <svg width="34" height="10" className={styles.legendSwatch} aria-hidden="true">
+              <line
+                x1="0"
+                y1="5"
+                x2="34"
+                y2="5"
+                className={`${styles.edge} ${EDGE_CLASS[kind]}`}
+              />
+              {kind === 'echelle' && (
+                <line
+                  x1="0"
+                  y1="5"
+                  x2="34"
+                  y2="5"
+                  className={`${styles.edge} ${styles.edgeEchelleCore}`}
+                />
+              )}
+            </svg>
+            {EDGE_KIND_LABEL[kind]}
+          </li>
+        ))}
+      </ul>
+
+      {/* Le même réseau en texte. Les plaques du plan sont déjà des liens :
+          on décrit ici les correspondances, sans créer de tabulations fantômes. */}
+      <ul className={styles.srOnly}>
+        {CONCEPT_ROUTES.map((c) => (
+          <li key={c.id}>
+            {c.title} — correspondances :{' '}
+            {connectionsOf(c.id)
+              .map((l) => `${conceptById(l.route.id).title} (${EDGE_KIND_LABEL[l.kind]})`)
+              .join(', ')}
+          </li>
+        ))}
+      </ul>
     </div>
   );
 }

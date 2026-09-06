@@ -1,7 +1,116 @@
+/* Le répertoire du terminal : la page finit sur une direction, pas sur une signature. */
 .footer {
-  border-top: 1px solid var(--border-subtle);
-  padding: var(--space-6);
-  text-align: center;
-  color: var(--text-muted);
-  font-size: var(--text-sm);
+  background-color: var(--backplate);
+  background-image: radial-gradient(var(--mark-perf) 1px, transparent 1.2px);
+  background-size: 6px 6px;
+  color: var(--ink-black);
+  border-top: var(--rule);
+  padding: var(--space-12) var(--gutter) var(--space-8);
+}
+.grid {
+  display: grid;
+  grid-template-columns: minmax(220px, 1fr) 2fr;
+  gap: var(--space-10);
+  align-items: start;
+}
+.brand {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-3);
+}
+.brandName {
+  font-size: var(--t-lg);
+  font-weight: 900;
+  letter-spacing: -0.02em;
+  text-transform: uppercase;
+  line-height: 1;
+}
+.tagline {
+  margin-top: var(--space-4);
+  max-width: 34ch;
+  font-size: var(--t-sm);
+  line-height: 1.6;
+  color: var(--ink-black-2);
+}
+
+.columns {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
+  gap: var(--space-8);
+}
+.colTitle {
+  font-size: var(--t-2xs);
+  font-weight: 700;
+  letter-spacing: var(--track-label);
+  text-transform: uppercase;
+  color: var(--ink-black-2);
+  padding-bottom: var(--space-3);
+  border-bottom: var(--rule-on-black);
+}
+.list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+.link {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  padding: var(--space-2) 0;
+  font-size: var(--t-sm);
+  font-weight: 600;
+  color: var(--ink-black-2);
+  transition: color var(--dur-fast) var(--ease-sign);
+}
+.link:hover {
+  color: var(--sign-yellow);
+}
+.gate {
+  font-variant-numeric: tabular-nums;
+  font-weight: 700;
+  color: var(--sign-yellow);
+  flex: none;
+}
+.link:hover .gate {
+  color: var(--icon-white);
+}
+
+.baseline {
+  margin-top: var(--space-10);
+  padding-top: var(--space-4);
+  border-top: var(--rule-on-black);
+  font-size: var(--t-xs);
+  color: var(--ink-black-2);
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-4);
+  justify-content: space-between;
+}
+
+@media (max-width: 780px) {
+  .grid {
+    grid-template-columns: 1fr;
+    gap: var(--space-8);
+  }
+}
+
+/* Titre de colonne lu par les lecteurs d'écran, jamais affiché ; sur desktop
+   une entretoise reproduit la règle de la colonne voisine pour aligner. */
+.colTitleHidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+.colSpacer {
+  display: none;
+}
+@media (min-width: 781px) {
+  .colSpacer {
+    display: block;
+    height: calc(1.4em + var(--space-3));
+    border-bottom: var(--rule-on-black);
+  }
 }

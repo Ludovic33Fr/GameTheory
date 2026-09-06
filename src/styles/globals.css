@@ -1,24 +1,127 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Source+Sans+3:ital,wght@0,400;0,600;0,700;0,900;1,400&display=swap');
 
-body {
-  font-size: var(--text-base);
+/* ------------------------------------------------------------------ *
+ * Panneau de terminal — primitives partagées.
+ * Une bande = une région signalée. Une plaque = de la donnée.
+ * Le papier = de la lecture longue. Rien d'autre.
+ * ------------------------------------------------------------------ */
+
+/* Bande de panneau : jaune pleine largeur, séparée par un filet noir. */
+.band {
+  border-bottom: var(--rule);
+  padding: var(--space-10) var(--gutter);
+}
+.band--tight {
+  padding-block: var(--space-6);
 }
 
-.label-mono {
-  font-family: var(--font-mono);
-  font-size: var(--text-xs);
-  letter-spacing: 0.15em;
+/* Plaque encastrée : métal noir perforé. La donnée vit ici. */
+.backplate {
+  background-color: var(--backplate);
+  background-image: radial-gradient(var(--mark-perf) 1px, transparent 1.2px);
+  background-size: 6px 6px;
+  color: var(--ink-black);
+}
+
+/* Colonne de lecture. */
+.prose {
+  background: var(--paper);
+  color: var(--ink-paper);
+  border: var(--rule);
+  border-radius: var(--r-card);
+  padding: clamp(var(--space-6), 4vw, var(--space-12));
+  max-width: calc(var(--measure) + 2 * clamp(24px, 4vw, 48px));
+}
+.prose h2 {
+  font-size: var(--t-xl);
+  font-weight: 700;
+  letter-spacing: var(--track-tight);
+  line-height: 1.15;
+  text-wrap: balance;
+  margin-top: var(--space-10);
+  margin-bottom: var(--space-4);
+}
+.prose > :first-child {
+  margin-top: 0;
+}
+.prose p {
+  font-size: var(--t-base);
+  line-height: 1.68;
+  max-width: var(--measure);
+  color: var(--ink-paper);
+}
+.prose p + p {
+  margin-top: var(--space-4);
+}
+.prose strong {
+  font-weight: 700;
+}
+.prose a {
+  text-decoration: underline;
+  text-decoration-thickness: 2px;
+  text-underline-offset: 3px;
+  text-decoration-color: var(--sign-yellow-shade);
+}
+.prose a:hover {
+  text-decoration-color: var(--ink-paper);
+}
+.prose ul,
+.prose ol {
+  margin: var(--space-4) 0;
+  padding-left: var(--space-5);
+  max-width: var(--measure);
+}
+.prose li {
+  line-height: 1.68;
+}
+.prose li + li {
+  margin-top: var(--space-2);
+}
+
+/* Étiquette de région : elle nomme le panneau, elle ne surtitre jamais un titre. */
+.signLabel {
+  font-size: var(--t-2xs);
+  font-weight: 700;
+  letter-spacing: var(--track-label);
   text-transform: uppercase;
-  color: var(--accent-primary);
 }
 
+/* Deux colonnes de démonstration. */
 .demoSplit {
   display: grid;
-  gap: var(--space-6);
+  gap: var(--space-5);
   grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  align-items: start;
 }
-@media (max-width: 768px) {
+@media (max-width: 860px) {
   .demoSplit {
     grid-template-columns: 1fr;
   }
+}
+
+/* Chiffres de tableau : jamais proportionnels. */
+.tnum {
+  font-variant-numeric: tabular-nums;
+  font-feature-settings: 'tnum' 1;
+}
+
+/* Le geste du monde : le volet qui bascule quand une valeur change. */
+@keyframes flap {
+  0% {
+    transform: rotateX(0deg);
+  }
+  48% {
+    transform: rotateX(-88deg);
+  }
+  49% {
+    transform: rotateX(88deg);
+  }
+  100% {
+    transform: rotateX(0deg);
+  }
+}
+
+/* KaTeX hérite du panneau plutôt que de son propre thème. */
+.katex {
+  font-size: 1.02em;
 }

@@ -1,55 +1,85 @@
+/*
+ * Panneau de terminal — système de jetons.
+ * Couleurs relevées sur la planche de référence (Schiphol / Frutiger) :
+ * jaune panneau, encre noire, cadre de panneau, gris de surface, blanc pictogramme.
+ * Le jaune est le sol de la page. Les plaques noires portent la donnée.
+ * Le papier ne sert qu'à la lecture longue.
+ */
 :root {
-  /* Surfaces */
-  --bg-base: #0a0a0f;
-  --bg-elevated: #0f0f15;
-  --bg-subtle: #08080c;
-  --border-subtle: #1f1f24;
-  --border-default: #27272a;
+  /* --- Panneau --- */
+  --sign-yellow: #ffcc00;        /* Pantone 109 C */
+  --sign-yellow-lit: #ffdb47;    /* face éclairée d'un panneau */
+  --sign-yellow-shade: #e0b100;  /* face d'ombre, filets sur jaune */
+  --sign-black: #0b0b0b;
+  --panel-frame: #1a1a1a;
+  --backplate: #131313;          /* plaque encastrée, métal perforé */
+  --backplate-lit: #1f1f1f;
+  --surface-gray: #e6e6e6;
+  --icon-white: #ffffff;
+  --paper: #fbfbfa;              /* colonne de lecture */
 
-  /* Text */
-  --text-primary: #fafafa;
-  --text-secondary: #a1a1aa;
-  --text-muted: #71717a;
+  /* --- Encres --- */
+  --ink-yellow: #0b0b0b;         /* sur jaune */
+  --ink-yellow-2: #4a3c00;       /* secondaire sur jaune, teinté depuis la teinte */
+  --ink-black: #ffffff;          /* sur plaque noire */
+  --ink-black-2: #b9b6ae;
+  --ink-paper: #16150f;          /* sur papier */
+  --ink-paper-2: #57544a;
 
-  /* Accents */
-  --accent-primary: #22d3ee;
-  --accent-primary-soft: #22d3ee22;
-  --accent-secondary: #c084fc;
-  --accent-success: #86efac;
-  --accent-danger: #fca5a5;
-  --accent-warning: #fde68a;
+  /* --- Marques d'état (une marque, pas une teinte) --- */
+  --mark-hatch: rgba(11, 11, 11, 0.16);
+  --mark-perf: rgba(255, 255, 255, 0.055);
 
-  /* Spacing scale (4px base) */
+  /* --- Filets --- */
+  --rule-w: 2px;
+  --rule: var(--rule-w) solid var(--sign-black);
+  --rule-hair: 1px solid rgba(11, 11, 11, 0.28);
+  --rule-on-black: var(--rule-w) solid #2c2c2c;
+
+  /* --- Trame (4px) --- */
   --space-1: 4px;
   --space-2: 8px;
   --space-3: 12px;
   --space-4: 16px;
+  --space-5: 20px;
   --space-6: 24px;
   --space-8: 32px;
+  --space-10: 40px;
   --space-12: 48px;
   --space-16: 64px;
+  --space-20: 80px;
+  --space-24: 96px;
 
-  /* Radii */
-  --radius-sm: 4px;
-  --radius-md: 6px;
-  --radius-lg: 8px;
-  --radius-xl: 12px;
+  /* Marge de concourse : les panneaux respirent large au-delà de 1100px */
+  --gutter: clamp(20px, 5vw, 72px);
+  --measure: 66ch;
 
-  /* Type scale */
-  --text-xs: 11px;
-  --text-sm: 13px;
-  --text-base: 15px;
-  --text-lg: 18px;
-  --text-xl: 24px;
-  --text-2xl: 32px;
-  --text-3xl: 38px;
+  /* --- Rayons : le panneau est carré, la plaque à pictogramme est adoucie --- */
+  --r-none: 0;
+  --r-plate: 10px;
+  --r-card: 12px;
 
-  /* Fonts */
-  --font-sans: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
-  --font-mono: 'JetBrains Mono', ui-monospace, SFMono-Regular, monospace;
+  /* --- Typographie : une seule famille, du corps au numéro de porte --- */
+  --font-sign: 'Source Sans 3', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', sans-serif;
 
-  /* Animation */
-  --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
-  --duration-fast: 150ms;
-  --duration-base: 250ms;
+  --t-2xs: 12px;
+  --t-xs: 13px;
+  --t-sm: 15px;
+  --t-base: 17px;
+  --t-lg: 20px;
+  --t-xl: clamp(22px, 2.6vw, 28px);
+  --t-2xl: clamp(28px, 4.2vw, 42px);
+  --t-display: clamp(36px, 6.4vw, 84px);
+  --t-gate: clamp(46px, 8.4vw, 120px);   /* numéro de porte : une marque, pas de la prose */
+
+  --track-tight: -0.03em;
+  --track-label: 0.09em;
+
+  /* --- Mouvement : un seul geste, le volet qui bascule --- */
+  --ease-sign: cubic-bezier(0.2, 0.9, 0.2, 1);
+  --dur-flap: 260ms;
+  --dur-fast: 130ms;
+
+  /* --- Élévation : le panneau suspendu porte une ombre, les plaques portent un cadre --- */
+  --hang: 0 16px 34px -14px rgba(11, 11, 11, 0.55);
 }

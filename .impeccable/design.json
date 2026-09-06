@@ -1,0 +1,256 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-09-06T00:00:00.000Z",
+  "title": "Design System: GameTheory",
+  "extensions": {
+    "colorMeta": {
+      "sign-yellow": {
+        "role": "primary",
+        "displayName": "Jaune Schiphol",
+        "canonical": "#ffcc00",
+        "tonalRamp": ["#ffdb47", "#ffcc00", "#e0b100"]
+      },
+      "sign-black": {
+        "role": "neutral",
+        "displayName": "Encre de panneau",
+        "canonical": "#0b0b0b",
+        "tonalRamp": ["#2c2c2c", "#1a1a1a", "#0b0b0b"]
+      },
+      "backplate": {
+        "role": "neutral",
+        "displayName": "Plaque encastrée",
+        "canonical": "#131313",
+        "tonalRamp": ["#1f1f1f", "#131313", "#0a0a0a"]
+      },
+      "paper": {
+        "role": "neutral",
+        "displayName": "Papier de lecture",
+        "canonical": "#fbfbfa",
+        "tonalRamp": ["#ffffff", "#fbfbfa", "#e6e6e6"]
+      },
+      "ink-yellow-2": {
+        "role": "neutral",
+        "displayName": "Encre secondaire sur jaune",
+        "canonical": "#4a3c00",
+        "tonalRamp": ["#4a3c00"]
+      },
+      "ink-black-2": {
+        "role": "neutral",
+        "displayName": "Encre secondaire sur plaque",
+        "canonical": "#b9b6ae",
+        "tonalRamp": ["#b9b6ae"]
+      }
+    },
+    "typographyMeta": {
+      "gate": {
+        "displayName": "Numéro de porte",
+        "purpose": "Marque de repérage d'une destination. Chiffres tabulaires, jamais de la prose."
+      },
+      "display": {
+        "displayName": "Titre de destination",
+        "purpose": "Titre d'un concept ou d'une page de répertoire, un par page."
+      },
+      "headline": {
+        "displayName": "Titre de bande",
+        "purpose": "Nomme une région pleine largeur : Démonstration, Plan du terminal, Correspondances."
+      },
+      "title": {
+        "displayName": "Nom de destination",
+        "purpose": "Nom d'un concept dans une ligne de panneau, h2 de la colonne de lecture."
+      },
+      "body": {
+        "displayName": "Prose",
+        "purpose": "Texte pédagogique, sur la carte de papier uniquement, capé à 66ch."
+      },
+      "label": {
+        "displayName": "Étiquette de région",
+        "purpose": "Nomme un panneau ou un type de correspondance. Ne surtitre jamais un titre."
+      }
+    },
+    "shadows": [
+      {
+        "name": "hang",
+        "value": "0 16px 34px -14px rgba(11, 11, 11, 0.55)",
+        "purpose": "L'ombre d'un panneau suspendu à sa potence. Réservée à l'en-tête collant, à l'infobulle du glossaire et au lien d'évitement au focus."
+      }
+    ],
+    "motion": [
+      {
+        "name": "ease-sign",
+        "value": "cubic-bezier(0.2, 0.9, 0.2, 1)",
+        "purpose": "Courbe unique du système, pour toute transition d'état."
+      },
+      {
+        "name": "dur-flap",
+        "value": "260ms",
+        "purpose": "Durée du volet basculant : le seul geste authored du monde."
+      },
+      {
+        "name": "dur-fast",
+        "value": "130ms",
+        "purpose": "Survol, glissement de flèche, changement de cadre."
+      },
+      {
+        "name": "flap",
+        "value": "@keyframes flap { 0% { transform: rotateX(0deg); } 48% { transform: rotateX(-88deg); } 49% { transform: rotateX(88deg); } 100% { transform: rotateX(0deg); } }",
+        "purpose": "Une valeur qui change bascule sur son axe horizontal, elle ne fond pas. Gated par useReducedMotion."
+      }
+    ],
+    "breakpoints": [
+      { "name": "stat-2col", "value": "480px" },
+      { "name": "compact", "value": "560px" },
+      { "name": "row-plate-drop", "value": "620px" },
+      { "name": "map-scroll", "value": "700px" },
+      { "name": "nav-icons-only", "value": "720px" },
+      { "name": "footer-stack", "value": "780px" },
+      { "name": "demo-stack", "value": "860px" },
+      { "name": "read-two-col", "value": "1080px" }
+    ],
+    "textures": [
+      {
+        "name": "perforated-metal",
+        "value": "background-image: radial-gradient(rgba(255,255,255,0.055) 1px, transparent 1.2px); background-size: 6px 6px;",
+        "purpose": "La trame de métal perforé de toute plaque encastrée. La seule texture du système, et elle vient de la planche de référence."
+      },
+      {
+        "name": "hazard-hatch",
+        "value": "background-image: repeating-linear-gradient(-45deg, rgba(11,11,11,0.18) 0 8px, transparent 8px 18px);",
+        "purpose": "La hachure de danger. Signale une alerte sur fond jaune et un contrôle refusé sur fond noir."
+      }
+    ],
+    "rules": [
+      {
+        "name": "La règle du jaune réservé",
+        "body": "Le jaune ne sert qu'à la signalétique : bandes, lignes de destination, correspondances, plaques du plan, valeur retenue.",
+        "section": "colors"
+      },
+      {
+        "name": "La règle de la marque",
+        "body": "Un état se lit d'abord à une marque, pas à une teinte. La couleur redouble la marque, elle ne la remplace jamais. Ce système n'a ni vert ni rouge.",
+        "section": "colors"
+      },
+      {
+        "name": "La règle du surtitre interdit",
+        "body": "Aucune petite étiquette tracée ne se pose au-dessus d'un titre plus gros. Une région est nommée par son propre titre et sa plaque à pictogramme.",
+        "section": "typography"
+      },
+      {
+        "name": "La règle des chiffres tabulaires",
+        "body": "Tout chiffre comparable est en font-variant-numeric: tabular-nums. Un chiffre qui bouge de largeur n'est pas un relevé.",
+        "section": "typography"
+      },
+      {
+        "name": "La règle de l'élévation déclarée une fois",
+        "body": "Une surface porte un cadre ou une ombre, jamais les deux. Seuls les éléments suspendus portent hang.",
+        "section": "elevation"
+      }
+    ]
+  },
+  "components": [
+    {
+      "name": "Plaque à pictogramme",
+      "kind": "custom",
+      "refersTo": "plate",
+      "description": "L'unité de base du système : un carré noir portant un pictogramme blanc dessiné. Précède le titre de chaque région et le nom de chaque destination.",
+      "html": "<span class=\"ds-plate\"><svg viewBox=\"0 0 32 32\" width=\"22\" height=\"22\" fill=\"currentColor\" aria-hidden=\"true\"><rect x=\"13\" y=\"13\" width=\"6\" height=\"6\"/><rect x=\"15\" y=\"1.5\" width=\"2\" height=\"4.5\"/><path d=\"M16 11.6 12.2 6.4h7.6Z\"/><rect x=\"15\" y=\"26\" width=\"2\" height=\"4.5\"/><path d=\"M16 20.4 12.2 25.6h7.6Z\"/><rect x=\"1.5\" y=\"15\" width=\"4.5\" height=\"2\"/><path d=\"M11.6 16 6.4 12.2v7.6Z\"/><rect x=\"26\" y=\"15\" width=\"4.5\" height=\"2\"/><path d=\"M20.4 16 25.6 12.2v7.6Z\"/></svg></span>",
+      "css": ".ds-plate { display: inline-grid; place-items: center; width: 44px; height: 44px; background: #0b0b0b; color: #ffffff; border-radius: 10px; }"
+    },
+    {
+      "name": "Ligne de destination",
+      "kind": "nav",
+      "refersTo": "sign-row",
+      "description": "La ligne du panneau : plaque, numéro de porte monumental, titre, correspondances, flèche calée à droite. Elle EST l'action — il n'y a pas de bouton à côté.",
+      "html": "<a class=\"ds-row\" href=\"#\"><span class=\"ds-plate-sm\"></span><span class=\"ds-gate\">01</span><span class=\"ds-body\"><span class=\"ds-title\">Dilemme du prisonnier</span><span class=\"ds-transfers\"><span class=\"ds-tlabel\">Correspondances</span><span class=\"ds-t\">02</span><span class=\"ds-t\">04</span><span class=\"ds-t\">06</span></span></span><svg class=\"ds-arrow\" viewBox=\"0 0 32 32\" width=\"30\" height=\"30\" fill=\"currentColor\"><rect x=\"2\" y=\"14.2\" width=\"18\" height=\"3.6\"/><path d=\"M30 16 17 7.2v17.6Z\"/></svg></a>",
+      "css": ".ds-row { display: grid; grid-template-columns: auto auto minmax(0,1fr) auto; align-items: center; gap: 32px; padding: 24px 72px; background: #ffcc00; color: #0b0b0b; border-block: 2px solid #0b0b0b; text-decoration: none; transition: background 130ms cubic-bezier(0.2,0.9,0.2,1); } .ds-row:hover { background: #ffdb47; } .ds-plate-sm { width: 60px; height: 60px; background: #0b0b0b; border-radius: 10px; } .ds-gate { font: 900 76px/0.82 'Source Sans 3', sans-serif; letter-spacing: -0.045em; font-variant-numeric: tabular-nums; } .ds-title { font: 700 28px/1.1 'Source Sans 3', sans-serif; letter-spacing: -0.02em; } .ds-transfers { display: flex; align-items: center; gap: 8px; margin-top: 8px; } .ds-tlabel { font: 700 12px/1 'Source Sans 3', sans-serif; letter-spacing: 0.09em; text-transform: uppercase; color: #4a3c00; } .ds-t { display: inline-grid; place-items: center; min-width: 26px; height: 22px; padding: 0 5px; font: 700 13px/1 'Source Sans 3', sans-serif; font-variant-numeric: tabular-nums; border-radius: 4px; box-shadow: inset 0 0 0 2px #0b0b0b; } .ds-arrow { transition: transform 130ms cubic-bezier(0.2,0.9,0.2,1); } .ds-row:hover .ds-arrow { transform: translateX(6px); }"
+    },
+    {
+      "name": "Case de matrice à l'équilibre",
+      "kind": "custom",
+      "refersTo": "matrix-cell-equilibrium",
+      "description": "La case retenue de la table des gains : allumée en jaune ET marquée d'un coin plein noir. La marque survit au niveau de gris.",
+      "html": "<div class=\"ds-cell ds-cell-eq\">-2, -2</div>",
+      "css": ".ds-cell { position: relative; background: #1d1d1d; color: #ffffff; border-radius: 6px; padding: 16px 12px; min-width: 96px; text-align: center; font: 700 20px/1 'Source Sans 3', sans-serif; font-variant-numeric: tabular-nums; } .ds-cell-eq { background: #ffcc00; color: #0b0b0b; } .ds-cell-eq::after { content: ''; position: absolute; top: 0; right: 0; width: 20px; height: 20px; background: #0b0b0b; clip-path: polygon(0 0, 100% 0, 100% 100%); border-top-right-radius: 6px; }"
+    },
+    {
+      "name": "Bouton principal",
+      "kind": "button",
+      "refersTo": "button-primary",
+      "description": "Plaque noire, flèche dans un carré à filet, libellé qui nomme l'action.",
+      "html": "<button class=\"ds-btn\"><span class=\"ds-btn-box\"><svg viewBox=\"0 0 32 32\" width=\"15\" height=\"15\" fill=\"currentColor\"><rect x=\"2\" y=\"14.2\" width=\"18\" height=\"3.6\"/><path d=\"M30 16 17 7.2v17.6Z\"/></svg></span>Ouvrir le plan</button>",
+      "css": ".ds-btn { display: inline-flex; align-items: center; gap: 12px; background: #0b0b0b; color: #ffffff; padding: 12px 20px 12px 12px; border: 0; border-radius: 10px; font: 700 17px/1 'Source Sans 3', sans-serif; letter-spacing: -0.01em; cursor: pointer; transition: background 130ms cubic-bezier(0.2,0.9,0.2,1); } .ds-btn:hover { background: #1a1a1a; } .ds-btn-box { display: grid; place-items: center; width: 30px; height: 30px; border: 2px solid currentColor; border-radius: 5px; }"
+    },
+    {
+      "name": "Plaque encastrée",
+      "kind": "card",
+      "refersTo": "panel",
+      "description": "Métal noir perforé, filet de 2px, en-tête étiqueté. Toute donnée manipulable vit dedans.",
+      "html": "<section class=\"ds-panel\"><header class=\"ds-panel-head\"><span class=\"ds-panel-label\">Stratégies engagées</span></header><div class=\"ds-panel-body\">…</div></section>",
+      "css": ".ds-panel { background-color: #131313; background-image: radial-gradient(rgba(255,255,255,0.055) 1px, transparent 1.2px); background-size: 6px 6px; color: #ffffff; border: 2px solid #0b0b0b; border-radius: 12px; overflow: hidden; } .ds-panel-head { padding: 12px 16px; background: #1f1f1f; border-bottom: 2px solid #2c2c2c; } .ds-panel-label { font: 700 12px/1 'Source Sans 3', sans-serif; letter-spacing: 0.09em; text-transform: uppercase; color: #b9b6ae; } .ds-panel-body { padding: 16px; }"
+    },
+    {
+      "name": "Carte de lecture",
+      "kind": "card",
+      "refersTo": "reading-card",
+      "description": "Le seul papier du système. Prose pédagogique capée à 66ch.",
+      "html": "<div class=\"ds-prose\"><h2>Pourquoi ce résultat ?</h2><p>…</p></div>",
+      "css": ".ds-prose { background: #fbfbfa; color: #16150f; border: 2px solid #0b0b0b; border-radius: 12px; padding: 48px; max-width: 656px; } .ds-prose h2 { font: 700 28px/1.15 'Source Sans 3', sans-serif; letter-spacing: -0.03em; margin: 40px 0 16px; text-wrap: balance; } .ds-prose > :first-child { margin-top: 0; } .ds-prose p { font: 400 17px/1.68 'Source Sans 3', sans-serif; max-width: 66ch; }"
+    }
+  ],
+  "narrative": {
+    "northStar": "Le panneau de terminal",
+    "overview": "Le site est un terminal signalé. À chaque jonction, ce que le visiteur peut faire ensuite est écrit en grand, au-dessus de sa tête : un numéro de porte monumental, un nom de destination, une flèche calée sur le bord du panneau qu'elle désigne. Le jaune Schiphol est le sol de la page, pas un accent ; l'encre noire porte tout le texte de navigation ; les plaques noires en métal perforé accueillent la donnée qu'on manipule ; le papier n'apparaît que là où il y a de la lecture longue à faire.\n\nCe monde a été choisi contre deux défauts prévisibles du sujet : le tableau de bord sombre à accent fluo (ce que ce site était : #0a0a0f, cyan #22d3ee, Inter, filets d'un pixel) et l'explicatif crème à serif contrasté, son opposé attendu. Les deux sont des anti-références confirmées.\n\nLa signalétique d'aéroport a gagné sur deux axes : l'identification (n'importe qui a déjà lu un panneau de terminal) et la clarté produit (« une décision par jonction, seulement les choix qui restent » est le critère de succès du produit — trois concepts visités au lieu d'un).",
+    "keyCharacteristics": [
+      "Jaune signalétique en aplat pleine largeur, réservé à la navigation.",
+      "Une seule famille typographique, du corps de texte au numéro de porte.",
+      "Pictogrammes blancs pleins dans des carrés noirs — jamais d'émoji, jamais de glyphe Unicode.",
+      "Filets noirs de 2px comme seul séparateur de régions.",
+      "L'état se lit à une marque, pas à une teinte."
+    ],
+    "rules": [
+      {
+        "name": "La règle du jaune réservé",
+        "body": "Le jaune ne sert qu'à la signalétique : bandes, lignes de destination, correspondances, plaques du plan, valeur retenue.",
+        "section": "colors"
+      },
+      {
+        "name": "La règle de la marque",
+        "body": "Un état se lit d'abord à une marque, pas à une teinte. Ce système n'a ni vert ni rouge.",
+        "section": "colors"
+      },
+      {
+        "name": "La règle du surtitre interdit",
+        "body": "Aucune petite étiquette tracée ne se pose au-dessus d'un titre plus gros.",
+        "section": "typography"
+      },
+      {
+        "name": "La règle des chiffres tabulaires",
+        "body": "Tout chiffre comparable est en font-variant-numeric: tabular-nums.",
+        "section": "typography"
+      },
+      {
+        "name": "La règle de l'élévation déclarée une fois",
+        "body": "Une surface porte un cadre ou une ombre, jamais les deux.",
+        "section": "elevation"
+      }
+    ],
+    "dos": [
+      "Do faire courir chaque région d'un bord à l'autre et la séparer par un filet noir de 2px.",
+      "Do caler toute flèche sur le bord du panneau qu'elle désigne.",
+      "Do faire précéder le titre de chaque région par sa plaque à pictogramme.",
+      "Do doubler tout état par une marque lisible en niveaux de gris.",
+      "Do mettre font-variant-numeric: tabular-nums sur tout chiffre comparable.",
+      "Do passer par FlapValue pour un chiffre qui change, et par useReducedMotion pour toute animation.",
+      "Do garder la prose longue sur la carte de papier, capée à 66ch."
+    ],
+    "donts": [
+      "Don't poser du jaune sur un élément qui ne conduit nulle part et ne signale aucun état retenu.",
+      "Don't poser une petite étiquette tracée en capitales au-dessus d'un titre plus gros.",
+      "Don't employer un glyphe Unicode ou une émoji comme icône.",
+      "Don't introduire une seconde famille typographique ni de monospace décorative.",
+      "Don't utiliser une bordure d'un pixel : le système n'a que des filets de 2px.",
+      "Don't cumuler cadre et ombre portée sur une même surface.",
+      "Don't signaler une information par la seule opposition vert/rouge.",
+      "Don't ajouter une entrée de mouvement identique sur chaque section : il y a un seul geste, le volet."
+    ]
+  }
+}

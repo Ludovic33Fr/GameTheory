@@ -1,27 +1,145 @@
+/* Le panneau suspendu : il reste au-dessus de la tête pendant tout le parcours. */
 .header {
   position: sticky;
   top: 0;
   z-index: 50;
-  background: rgba(10, 10, 15, 0.85);
-  backdrop-filter: blur(8px);
-  border-bottom: 1px solid var(--border-subtle);
-  padding: var(--space-3) var(--space-6);
   display: flex;
   align-items: center;
   justify-content: space-between;
-  font-size: var(--text-sm);
+  gap: var(--space-4);
+  padding: var(--space-3) var(--gutter);
+  background: var(--sign-yellow);
+  border-bottom: var(--rule);
+  box-shadow: var(--hang);
 }
+
 .brand {
-  color: var(--accent-primary);
-  font-weight: 700;
-  letter-spacing: 0.05em;
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-3);
+  flex: none;
 }
-.brand::before { content: '◉ '; }
-.crumbs { display: flex; gap: var(--space-3); align-items: center; color: var(--text-secondary); }
-.crumbSep { color: var(--text-muted); }
-.crumbCurrent { color: var(--text-primary); }
-.nav { display: flex; gap: var(--space-4); color: var(--text-secondary); }
-.nav a:hover { color: var(--text-primary); }
-@media (max-width: 640px) {
-  .header { flex-direction: column; gap: var(--space-2); padding: var(--space-3); }
+.brandName {
+  font-size: var(--t-lg);
+  font-weight: 900;
+  letter-spacing: -0.02em;
+  text-transform: uppercase;
+  line-height: 1;
+}
+
+.left {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  min-width: 0;
+}
+.crumbTrail {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  min-width: 0;
+}
+.crumbSep {
+  flex: none;
+  opacity: 0.5;
+}
+.crumb {
+  font-size: var(--t-sm);
+  font-weight: 600;
+  color: var(--ink-yellow-2);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  /* La zone cliquable atteint 34px sans épaissir la bande. */
+  padding-block: var(--space-2);
+  margin-block: calc(-1 * var(--space-2));
+}
+a.crumb:hover {
+  color: var(--ink-yellow);
+  text-decoration: underline;
+  text-decoration-thickness: 2px;
+  text-underline-offset: 4px;
+}
+.crumbCurrent {
+  color: var(--ink-yellow);
+}
+
+.nav {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  flex: none;
+}
+.navItem {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  padding: var(--space-2) var(--space-3);
+  border-radius: var(--r-plate);
+  font-size: var(--t-sm);
+  font-weight: 700;
+  transition: background var(--dur-fast) var(--ease-sign),
+    color var(--dur-fast) var(--ease-sign);
+}
+.navItem:hover {
+  background: var(--sign-yellow-shade);
+}
+.navItem[aria-current='page'] {
+  background: var(--sign-black);
+  color: var(--sign-yellow);
+}
+.navItem[aria-current='page']:hover {
+  background: var(--panel-frame);
+}
+
+/* Le lien d'évitement est lui aussi une indication de direction : invisible
+   tant qu'on ne le demande pas, puis un vrai panneau sous la bande. */
+.skip {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+.skip:focus-visible {
+  width: auto;
+  height: auto;
+  overflow: visible;
+  clip-path: none;
+  left: var(--gutter);
+  top: calc(100% + var(--space-3));
+  background: var(--sign-black);
+  color: var(--sign-yellow);
+  padding: var(--space-3) var(--space-4);
+  border-radius: var(--r-plate);
+  font-weight: 700;
+  outline-color: var(--sign-black);
+  box-shadow: var(--hang);
+}
+
+@media (max-width: 720px) {
+  .navLabel {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip-path: inset(50%);
+    white-space: nowrap;
+  }
+  .navItem {
+    padding: var(--space-2);
+  }
+}
+@media (max-width: 560px) {
+  /* La marque reste : seule la piste d'ariane tombe. */
+  .crumbTrail {
+    display: none;
+  }
+  .header {
+    padding-inline: var(--space-4);
+  }
+  .brandName {
+    font-size: var(--t-base);
+  }
 }

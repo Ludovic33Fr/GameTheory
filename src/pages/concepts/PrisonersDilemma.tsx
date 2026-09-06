@@ -2,6 +2,7 @@ import { useMemo, useState } from 'react';
 import { ConceptPage } from '../../components/ConceptPage';
 import { PayoffMatrix } from '../../components/PayoffMatrix';
 import { CumulativeChart } from '../../components/CumulativeChart';
+import { Plate, Pictogram, FlapValue } from '../../components/Sign';
 import { prisonersDilemma } from '../../games/prisoners';
 import { prisonersContent } from '../../content/prisoners';
 import {
@@ -12,8 +13,12 @@ import {
   titForTat,
 } from '../../games/axelrod/strategies';
 import type { ActionProfile, IteratedStrategy } from '../../games/types';
+import d from '../../styles/demo.module.css';
 
-const LABELS = [['Coopérer', 'Trahir'], ['Coopérer', 'Trahir']];
+const LABELS = [
+  ['Coopérer', 'Trahir'],
+  ['Coopérer', 'Trahir'],
+];
 
 const ITERATED_STRATEGIES: IteratedStrategy[] = [
   titForTat,
@@ -32,49 +37,45 @@ interface Round {
 
 function SingleRoundDemo() {
   const [played, setPlayed] = useState<ActionProfile | null>(null);
+
   return (
-    <div style={{ display: 'flex', gap: 'var(--space-6)', flexWrap: 'wrap', alignItems: 'flex-start' }}>
+    <div className={d.rack}>
       <PayoffMatrix
         game={prisonersDilemma}
         equilibria={[['D', 'D']]}
         actionLabels={LABELS}
         onCellClick={setPlayed}
       />
-      <div
-        style={{
-          flex: 1,
-          minWidth: 240,
-          background: 'var(--bg-elevated)',
-          border: '1px solid var(--border-default)',
-          borderRadius: 'var(--radius-lg)',
-          padding: 'var(--space-4)',
-          color: 'var(--text-secondary)',
-          fontSize: 'var(--text-sm)',
-          lineHeight: 1.6,
-        }}
-      >
-        {played === null
-          ? 'Clique une cellule de la matrice pour explorer un profil. Les deux joueurs choisissent simultanément.'
-          : (() => {
-              const [a, b] = played;
-              const [pa, pb] = prisonersDilemma.payoff(played);
-              const labelA = a === 'C' ? 'Coopérer' : 'Trahir';
-              const labelB = b === 'C' ? 'Coopérer' : 'Trahir';
-              const isEq = a === 'D' && b === 'D';
-              return (
-                <>
-                  <strong style={{ color: 'var(--text-primary)' }}>Profil : {labelA} / {labelB}</strong>
-                  <div style={{ marginTop: 'var(--space-2)' }}>
-                    Paiements : Joueur A = {pa}, Joueur B = {pb}.
-                  </div>
-                  <div style={{ marginTop: 'var(--space-2)' }}>
-                    {isEq
-                      ? "C'est l'équilibre de Nash : aucun joueur n'a intérêt à dévier seul."
-                      : 'Au moins un joueur regretterait son choix face à celui de l\'autre.'}
-                  </div>
-                </>
-              );
-            })()}
+      <div className={`${d.card} ${d.grow} ${d.note}`}>
+        {played === null ? (
+          <p>
+            Clique une cellule de la matrice pour explorer un profil. Les deux joueurs
+            choisissent simultanément.
+          </p>
+        ) : (
+          (() => {
+            const [a, b] = played;
+            const [pa, pb] = prisonersDilemma.payoff(played);
+            const labelA = a === 'C' ? 'Coopérer' : 'Trahir';
+            const labelB = b === 'C' ? 'Coopérer' : 'Trahir';
+            const isEq = a === 'D' && b === 'D';
+            return (
+              <>
+                <strong>
+                  Profil : {labelA} / {labelB}
+                </strong>
+                <p>
+                  Paiements : Joueur A = {pa}, Joueur B = {pb}.
+                </p>
+                <p>
+                  {isEq
+                    ? "C'est l'équilibre de Nash : aucun joueur n'a intérêt à dévier seul."
+                    : "Au moins un joueur regretterait son choix face à celui de l'autre."}
+                </p>
+              </>
+            );
+          })()
+        )}
       </div>
     </div>
   );
@@ -116,134 +117,102 @@ function IteratedPlayground() {
   const last = history[history.length - 1];
   const lastLabelYou = last ? (last.you === 'C' ? 'Coopérer' : 'Trahir') : null;
   const lastLabelOpp = last ? (last.opp === 'C' ? 'Coopérer' : 'Trahir') : null;
-  const winnerColor =
-    cumulative.totals.you > cumulative.totals.opp
-      ? 'var(--accent-success)'
-      : cumulative.totals.you < cumulative.totals.opp
-        ? 'var(--accent-danger)'
-        : 'var(--text-secondary)';
+  const youLead = cumulative.totals.you > cumulative.totals.opp;
+  const oppLead = cumulative.totals.opp > cumulative.totals.you;
 
   return (
-    <div style={{ marginTop: 'var(--space-8)', paddingTop: 'var(--space-8)', borderTop: '1px dashed var(--border-default)' }}>
-      <span className="label-mono">// Joue plusieurs tours</span>
-      <p style={{ marginTop: 'var(--space-2)', color: 'var(--text-secondary)', fontSize: 'var(--text-sm)', maxWidth: 600 }}>
-        Choisis une stratégie pour l'adversaire, puis joue tour par tour. Les paiements sont des « années de
-        prison » — plus haut sur le graphique = mieux. Changer de stratégie remet le score à zéro.
+    <section className={d.section}>
+      <div className={d.sectionHead}>
+        <Plate icon="iterated" size="sm" tone="yellow" />
+        <h3 className={d.sectionTitle}>Joue plusieurs tours</h3>
+      </div>
+      <p className={d.hint}>
+        Choisis une stratégie pour l'adversaire, puis joue tour par tour. Les paiements sont
+        des « années de prison » — plus haut sur le graphique = mieux. Changer de stratégie
+        remet le score à zéro.
       </p>
 
-      <div className="demoSplit" style={{ marginTop: 'var(--space-4)' }}>
-        <div style={{ background: 'var(--bg-elevated)', border: '1px solid var(--border-default)', borderRadius: 'var(--radius-lg)', padding: 'var(--space-4)' }}>
-          <div className="label-mono" style={{ marginBottom: 'var(--space-3)' }}>Stratégie de l'adversaire</div>
-          <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--space-2)' }}>
+      <div className="demoSplit">
+        <div className={d.card}>
+          <div className={d.cardTitle}>Stratégie de l'adversaire</div>
+          <div className={d.choices}>
             {ITERATED_STRATEGIES.map((s) => {
               const active = s.id === strategyId;
               return (
                 <button
                   key={s.id}
                   onClick={() => changeStrategy(s.id)}
-                  style={{
-                    textAlign: 'left',
-                    padding: 'var(--space-3)',
-                    border: `1px solid ${active ? 'var(--accent-primary)' : 'var(--border-default)'}`,
-                    background: active ? 'var(--accent-primary-soft)' : 'var(--bg-base)',
-                    color: active ? 'var(--accent-primary)' : 'var(--text-primary)',
-                    borderRadius: 'var(--radius-md)',
-                    fontSize: 'var(--text-sm)',
-                  }}
+                  className={`${d.choice} ${active ? d.choiceOn : ''}`}
+                  aria-pressed={active}
                 >
-                  <div style={{ fontWeight: 600 }}>{s.name}</div>
-                  <div style={{ marginTop: 2, fontSize: 'var(--text-xs)', color: active ? 'var(--accent-primary)' : 'var(--text-muted)', fontWeight: 400, lineHeight: 1.4 }}>
-                    {s.description}
-                  </div>
+                  <span className={d.choiceName}>
+                    <span className={`${d.mark} ${active ? d.markOn : ''}`} />
+                    {s.name}
+                  </span>
+                  <span className={d.choiceDesc}>{s.description}</span>
                 </button>
               );
             })}
           </div>
         </div>
 
-        <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--space-4)' }}>
-          <div style={{ background: 'var(--bg-elevated)', border: '1px solid var(--border-default)', borderRadius: 'var(--radius-lg)', padding: 'var(--space-4)' }}>
-            <div className="label-mono">Joue ton coup</div>
-            <div style={{ display: 'flex', gap: 'var(--space-3)', marginTop: 'var(--space-3)' }}>
-              <button
-                onClick={() => play('C')}
-                style={{
-                  flex: 1,
-                  padding: 'var(--space-3) var(--space-4)',
-                  background: 'var(--accent-success)',
-                  color: 'var(--bg-base)',
-                  borderRadius: 'var(--radius-md)',
-                  fontWeight: 700,
-                  fontSize: 'var(--text-base)',
-                }}
-              >
+        <div className={d.stack}>
+          <div className={d.card}>
+            <div className={d.cardTitle}>Joue ton coup</div>
+            <div className={d.actions}>
+              <button onClick={() => play('C')} className={d.play}>
                 Coopérer
               </button>
-              <button
-                onClick={() => play('D')}
-                style={{
-                  flex: 1,
-                  padding: 'var(--space-3) var(--space-4)',
-                  background: 'var(--accent-danger)',
-                  color: 'var(--bg-base)',
-                  borderRadius: 'var(--radius-md)',
-                  fontWeight: 700,
-                  fontSize: 'var(--text-base)',
-                }}
-              >
+              <button onClick={() => play('D')} className={`${d.play} ${d.playAlt}`}>
                 Trahir
               </button>
-              <button
-                onClick={reset}
-                disabled={history.length === 0}
-                style={{
-                  padding: 'var(--space-3) var(--space-4)',
-                  background: 'var(--bg-base)',
-                  color: history.length === 0 ? 'var(--text-muted)' : 'var(--text-primary)',
-                  border: '1px solid var(--border-default)',
-                  borderRadius: 'var(--radius-md)',
-                  fontSize: 'var(--text-sm)',
-                  cursor: history.length === 0 ? 'not-allowed' : 'pointer',
-                }}
-              >
-                ↺ Reset
+              <button onClick={reset} disabled={history.length === 0} className={d.reset}>
+                <Pictogram id="iterated" size={14} />
+                Remettre à zéro
               </button>
             </div>
 
-            <div style={{ marginTop: 'var(--space-4)', display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 'var(--space-2)', fontFamily: 'var(--font-mono)', fontSize: 'var(--text-sm)' }}>
-              <Stat label="Toi" value={cumulative.totals.you} accent={winnerColor} />
-              <Stat label="Adv" value={cumulative.totals.opp} />
+            <div className={d.stats}>
+              <Stat label="Toi" value={cumulative.totals.you} lead={youLead} />
+              <Stat label="Adversaire" value={cumulative.totals.opp} lead={oppLead} />
               <Stat label="Tours" value={history.length} />
             </div>
 
             {last && (
-              <div style={{ marginTop: 'var(--space-3)', padding: 'var(--space-3)', background: 'var(--bg-base)', borderRadius: 'var(--radius-md)', fontSize: 'var(--text-sm)', color: 'var(--text-secondary)' }}>
-                <span style={{ color: 'var(--text-muted)' }}>Tour précédent :</span>{' '}
-                <span style={{ color: 'var(--text-primary)' }}>{lastLabelYou}</span> / <span style={{ color: 'var(--text-primary)' }}>{lastLabelOpp}</span>{' '}
-                <span style={{ color: 'var(--text-muted)' }}>→</span>{' '}
-                <span style={{ fontFamily: 'var(--font-mono)' }}>({last.yourGain}, {last.oppGain})</span>
+              <div className={d.last}>
+                <span>Tour précédent :</span>
+                <span className={d.lastStrong}>{lastLabelYou}</span>
+                <span>/</span>
+                <span className={d.lastStrong}>{lastLabelOpp}</span>
+                <Pictogram id="arrowRight" size={12} />
+                <span className={d.lastPayoff}>
+                  ({last.yourGain}, {last.oppGain})
+                </span>
               </div>
             )}
           </div>
+
+          <CumulativeChart
+            you={cumulative.you}
+            opp={cumulative.opp}
+            caption="Plus haut = mieux (les paiements sont des années de prison, donc négatifs ou nuls)."
+          />
         </div>
       </div>
-
-      <div style={{ marginTop: 'var(--space-4)' }}>
-        <CumulativeChart
-          you={cumulative.you}
-          opp={cumulative.opp}
-          caption="Plus haut = mieux (les paiements sont des années de prison, donc négatifs ou nuls)."
-        />
-      </div>
-    </div>
+    </section>
   );
 }
 
-function Stat({ label, value, accent }: { label: string; value: number; accent?: string }) {
+function Stat({ label, value, lead }: { label: string; value: number; lead?: boolean }) {
   return (
-    <div style={{ padding: 'var(--space-2) var(--space-3)', background: 'var(--bg-base)', borderRadius: 'var(--radius-md)', textAlign: 'center' }}>
-      <div style={{ color: 'var(--text-muted)', fontSize: 'var(--text-xs)' }}>{label}</div>
-      <div style={{ marginTop: 2, color: accent ?? 'var(--text-primary)', fontWeight: 700, fontSize: 'var(--text-lg)' }}>{value}</div>
+    <div className={`${d.stat} ${lead ? d.statLead : ''}`}>
+      <div className={d.statLabel}>
+        {lead && <Pictogram id="arrowUp" size={9} />}
+        {label}
+      </div>
+      <div className={d.statValue}>
+        <FlapValue value={value} />
+      </div>
     </div>
   );
 }
@@ -264,6 +233,7 @@ export default function PrisonersDilemmaPage() {
       conceptNumber={1}
       category={prisonersContent.category}
       summary={prisonersContent.summary}
+      demoHint="Deux démonstrations : un coup unique à explorer case par case, puis une partie répétée contre l'adversaire de ton choix."
       demo={<Demo />}
       body={prisonersContent.body}
       deepDive={prisonersContent.deepDive}

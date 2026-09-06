@@ -1,0 +1,326 @@
+/* ---------- La fiche d'un jeu : le panneau de la destination trouvée ---------- */
+.hero {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  align-items: start;
+  gap: clamp(var(--space-4), 3vw, var(--space-8));
+  padding: clamp(var(--space-8), 5vw, var(--space-16)) var(--gutter);
+  border-bottom: var(--rule);
+}
+.found {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  margin-bottom: var(--space-3);
+  padding: var(--space-1) var(--space-3);
+  background: var(--sign-black);
+  color: var(--sign-yellow);
+  border-radius: 6px;
+  font-size: var(--t-xs);
+  font-weight: 700;
+}
+.title {
+  font-size: var(--t-display);
+  font-weight: 900;
+  line-height: 0.96;
+  letter-spacing: var(--track-tight);
+  margin: 0;
+  text-wrap: balance;
+}
+.aliases {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+  margin-top: var(--space-3);
+}
+.alias {
+  padding: 2px var(--space-2);
+  border-radius: 4px;
+  box-shadow: inset 0 0 0 2px var(--sign-black);
+  font-size: var(--t-xs);
+  font-weight: 700;
+}
+.tagline {
+  margin-top: var(--space-5);
+  max-width: 54ch;
+  font-size: var(--t-lg);
+  line-height: 1.5;
+  letter-spacing: -0.01em;
+}
+
+/* ---------- Les faits de structure ---------- */
+.facts {
+  display: grid;
+  grid-template-columns: auto auto auto minmax(0, 1fr);
+  align-items: stretch;
+  background: var(--sign-yellow-shade);
+  border-bottom: var(--rule);
+}
+.fact {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  padding: var(--space-4) var(--space-6);
+  border-right: var(--rule);
+  white-space: nowrap;
+}
+.fact:first-child {
+  padding-left: var(--gutter);
+}
+.factLabel {
+  display: block;
+  font-size: var(--t-2xs);
+  font-weight: 700;
+  letter-spacing: var(--track-label);
+  text-transform: uppercase;
+  color: var(--ink-yellow-2);
+}
+.factValue {
+  display: block;
+  font-size: var(--t-base);
+  font-weight: 700;
+  letter-spacing: -0.01em;
+}
+.route {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+  padding: var(--space-4) var(--gutter);
+}
+.routeLabel {
+  font-size: var(--t-2xs);
+  font-weight: 700;
+  letter-spacing: var(--track-label);
+  text-transform: uppercase;
+  color: var(--ink-yellow-2);
+  margin-right: var(--space-1);
+}
+.routeStep {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  min-height: 34px;
+  padding: 4px var(--space-3) 4px 4px;
+  border-radius: 5px;
+  background: var(--sign-black);
+  color: var(--sign-yellow);
+  font-size: var(--t-xs);
+  font-weight: 700;
+}
+.routeLetter {
+  display: inline-grid;
+  place-items: center;
+  width: 18px;
+  height: 18px;
+  border-radius: 3px;
+  background: var(--sign-yellow);
+  color: var(--sign-black);
+  font-size: 10px;
+  font-weight: 900;
+}
+
+/* ---------- La plaque du jeu ---------- */
+.gameBand {
+  padding: clamp(var(--space-8), 4vw, var(--space-12)) var(--gutter);
+  background-color: var(--backplate);
+  background-image: radial-gradient(var(--mark-perf) 1px, transparent 1.2px);
+  background-size: 6px 6px;
+  color: var(--ink-black);
+  border-bottom: var(--rule);
+}
+.gameHead {
+  display: flex;
+  align-items: center;
+  gap: var(--space-4);
+  margin-bottom: var(--space-6);
+}
+.gameTitle {
+  font-size: var(--t-xl);
+  font-weight: 900;
+  letter-spacing: var(--track-tight);
+  line-height: 1;
+}
+.gameGrid {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  align-items: start;
+  gap: var(--space-6);
+}
+.story {
+  max-width: 60ch;
+  font-size: var(--t-base);
+  line-height: 1.65;
+  color: var(--ink-black-2);
+}
+.story strong {
+  display: block;
+  color: var(--icon-white);
+  font-size: var(--t-2xs);
+  font-weight: 700;
+  letter-spacing: var(--track-label);
+  text-transform: uppercase;
+  margin-bottom: var(--space-3);
+}
+.noPure {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  margin-top: var(--space-4);
+  font-size: var(--t-xs);
+  font-weight: 600;
+  color: var(--ink-black-2);
+}
+.demoLink {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-3);
+  margin-top: var(--space-6);
+  padding: var(--space-3) var(--space-5) var(--space-3) var(--space-3);
+  background: var(--sign-yellow);
+  color: var(--sign-black);
+  border-radius: var(--r-plate);
+  font-weight: 700;
+  transition: background var(--dur-fast) var(--ease-sign);
+}
+.demoLink:hover {
+  background: var(--sign-yellow-lit);
+}
+.demoBox {
+  display: grid;
+  place-items: center;
+  width: 30px;
+  height: 30px;
+  border: 2px solid currentColor;
+  border-radius: 5px;
+}
+
+/* ---------- La lecture ---------- */
+.readBand {
+  padding: clamp(var(--space-8), 4vw, var(--space-12)) var(--gutter);
+  border-bottom: var(--rule);
+}
+
+/* ---------- Voisins ---------- */
+.siblings {
+  border-bottom: var(--rule);
+}
+.siblingsHead {
+  display: flex;
+  align-items: center;
+  gap: var(--space-4);
+  padding: var(--space-6) var(--gutter);
+}
+.siblingsTitle {
+  font-size: var(--t-xl);
+  font-weight: 900;
+  letter-spacing: var(--track-tight);
+  line-height: 1;
+}
+.siblingRow {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: center;
+  gap: var(--space-4);
+  padding: var(--space-4) var(--gutter);
+  border-top: var(--rule);
+  transition: background var(--dur-fast) var(--ease-sign);
+}
+.siblingRow:hover {
+  background: var(--sign-yellow-lit);
+}
+.siblingName {
+  font-size: var(--t-lg);
+  font-weight: 700;
+  letter-spacing: -0.015em;
+  line-height: 1.15;
+}
+.siblingTag {
+  display: block;
+  margin-top: 2px;
+  font-size: var(--t-sm);
+  color: var(--ink-yellow-2);
+  max-width: 70ch;
+}
+
+/* ---------- Retour aux questions ---------- */
+.controls {
+  display: flex;
+  justify-content: space-between;
+  gap: var(--space-4);
+}
+.control {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-3);
+  padding: var(--space-6) var(--gutter);
+  flex: 1;
+  font-weight: 700;
+  transition: background var(--dur-fast) var(--ease-sign);
+}
+.control:hover {
+  background: var(--sign-yellow-lit);
+}
+.controlRight {
+  justify-content: flex-end;
+  text-align: right;
+  border-left: var(--rule);
+}
+.controlLabel {
+  display: block;
+  font-size: var(--t-2xs);
+  letter-spacing: var(--track-label);
+  text-transform: uppercase;
+  color: var(--ink-yellow-2);
+}
+.controlName {
+  display: block;
+  margin-top: 2px;
+  font-size: var(--t-lg);
+  letter-spacing: -0.015em;
+  line-height: 1.15;
+}
+
+@media (max-width: 1100px) {
+  .facts {
+    grid-template-columns: auto auto minmax(0, 1fr);
+  }
+  .route {
+    grid-column: 1 / -1;
+    border-top: var(--rule);
+  }
+  .fact:nth-child(3) {
+    border-right: 0;
+  }
+}
+@media (max-width: 860px) {
+  .gameGrid {
+    grid-template-columns: 1fr;
+  }
+}
+@media (max-width: 620px) {
+  .hero {
+    grid-template-columns: 1fr;
+    gap: var(--space-3);
+  }
+  .facts {
+    grid-template-columns: 1fr;
+  }
+  .fact {
+    border-right: 0;
+    border-bottom: var(--rule);
+    white-space: normal;
+    padding-left: var(--gutter);
+  }
+  .route {
+    border-top: 0;
+  }
+  .controls {
+    flex-direction: column;
+    gap: 0;
+  }
+  .controlRight {
+    border-left: 0;
+    border-top: var(--rule);
+  }
+}

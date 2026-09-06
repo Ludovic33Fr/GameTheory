@@ -1,3 +1,4 @@
+import { Pictogram } from '../Sign';
 import styles from './EditablePayoffMatrix.module.css';
 
 export type Payoff = [number, number];
@@ -84,9 +85,14 @@ export function EditablePayoffMatrix({
         style={{ gridTemplateColumns: `auto repeat(2, minmax(120px, 1fr))` }}
       >
         <div className={styles.cornerLabel}>
-          {colPlayer} →
-          <br />
-          {rowPlayer} ↓
+          <span className={styles.cornerLine}>
+            {colPlayer}
+            <Pictogram id="arrowRight" size={11} />
+          </span>
+          <span className={styles.cornerLine}>
+            {rowPlayer}
+            <Pictogram id="arrowDown" size={11} />
+          </span>
         </div>
         <div className={styles.colHeader}>{colLabels[0]}</div>
         <div className={styles.colHeader}>{colLabels[1]}</div>

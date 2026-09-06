@@ -1,24 +1,41 @@
+/* Dans la colonne de lecture : le terme est souligné en jaune signal,
+   sa définition sort sur une plaque noire. */
 .term {
-  border-bottom: 1px dotted var(--accent-primary);
-  cursor: help;
-  color: var(--text-primary);
   position: relative;
+  cursor: help;
+  font-weight: 600;
+  text-decoration: underline;
+  text-decoration-color: var(--sign-yellow-shade);
+  text-decoration-thickness: 3px;
+  text-underline-offset: 3px;
+  text-decoration-skip-ink: none;
+}
+.term:hover,
+.term:focus-visible {
+  text-decoration-color: var(--sign-black);
 }
 .tooltip {
   position: absolute;
   left: 50%;
-  bottom: calc(100% + 8px);
+  bottom: calc(100% + 10px);
   transform: translateX(-50%);
-  background: var(--bg-elevated);
-  border: 1px solid var(--border-default);
-  border-radius: var(--radius-md);
-  padding: var(--space-3);
+  background: var(--backplate);
+  color: var(--ink-black);
+  border-radius: var(--r-plate);
+  padding: var(--space-3) var(--space-4);
   width: max-content;
-  max-width: 280px;
-  font-size: var(--text-sm);
-  color: var(--text-secondary);
-  box-shadow: 0 8px 32px rgba(0,0,0,0.5);
+  max-width: 300px;
+  font-size: var(--t-sm);
+  font-weight: 400;
+  line-height: 1.5;
+  text-decoration: none;
+  box-shadow: var(--hang);
   z-index: 10;
   pointer-events: none;
 }
-.tooltip strong { color: var(--text-primary); display: block; margin-bottom: 4px; }
+.tooltip strong {
+  display: block;
+  margin-bottom: var(--space-1);
+  color: var(--sign-yellow);
+  font-weight: 700;
+}

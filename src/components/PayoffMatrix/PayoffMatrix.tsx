@@ -66,7 +66,10 @@ export function PayoffMatrix({ game, equilibria, onCellClick, actionLabels }: Pa
         ))}
       </div>
       {equilibria && equilibria.length > 0 && (
-        <div className={styles.legend}>★ Équilibre de Nash en stratégies pures</div>
+        <p className={styles.legend}>
+          <span className={styles.legendSwatch} aria-hidden="true" />
+          Équilibre de Nash en stratégies pures
+        </p>
       )}
     </div>
   );

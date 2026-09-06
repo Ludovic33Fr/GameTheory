@@ -1,15 +1,132 @@
-.wrap { width: 100%; max-width: 920px; margin: 0 auto; aspect-ratio: 4 / 3; }
-.svg { width: 100%; height: 100%; }
-.node { cursor: pointer; transition: transform var(--duration-base) var(--ease-out-expo); }
-.nodeCircle { fill: var(--bg-elevated); stroke: var(--border-default); stroke-width: 1.5; transition: all var(--duration-base) var(--ease-out-expo); }
-.node:hover .nodeCircle, .node:focus .nodeCircle { stroke: var(--accent-primary); fill: var(--accent-primary-soft); }
-.nodeLabel { fill: var(--text-primary); font-size: 13px; font-weight: 600; pointer-events: none; }
-.nodeLabel.muted { fill: var(--text-secondary); }
-.edge { stroke: var(--border-default); stroke-width: 1; }
-.edge.highlighted { stroke: var(--accent-primary); }
-.fallback { display: none; }
-@media (max-width: 640px) {
-  .svg { display: none; }
-  .fallback { display: flex; flex-direction: column; gap: var(--space-2); }
-  .fallbackItem { padding: var(--space-3) var(--space-4); background: var(--bg-elevated); border: 1px solid var(--border-default); border-radius: var(--radius-md); color: var(--text-primary); font-size: var(--text-base); }
+.wrap {
+  width: 100%;
+}
+.scroller {
+  overflow-x: auto;
+  overscroll-behavior-x: contain;
+}
+.svg {
+  width: 100%;
+  height: auto;
+  min-width: 660px;
+}
+
+/* ---------- Traits : la nature du lien se lit à son tracé ---------- */
+.edge {
+  stroke: #737373;
+  fill: none;
+  transition: stroke var(--dur-fast) var(--ease-sign);
+}
+.edgeExemple {
+  stroke-width: 6;
+}
+.edgeExtension {
+  stroke-width: 3;
+}
+.edgeRepetition {
+  stroke-width: 3;
+  stroke-dasharray: 11 8;
+}
+/* Passage à N joueurs : deux traits parallèles, obtenus par évidement. */
+.edgeEchelle {
+  stroke-width: 8;
+}
+.edgeEchelleCore {
+  stroke: var(--backplate);
+  stroke-width: 3;
+}
+.edgeLit {
+  stroke: var(--sign-yellow);
+}
+.edgeDim {
+  stroke: #3d3d3d;
+}
+/* Sur petit écran, le plan défile : on le dit plutôt que de le laisser deviner. */
+.scrollHint {
+  display: none;
+  align-items: center;
+  gap: var(--space-2);
+  margin-top: var(--space-3);
+  font-size: var(--t-xs);
+  font-weight: 700;
+  color: var(--sign-yellow);
+}
+@media (max-width: 700px) {
+  .scrollHint {
+    display: flex;
+  }
+  .svg {
+    min-width: 580px;
+  }
+}
+
+/* ---------- Plaques de destination ---------- */
+.node {
+  cursor: pointer;
+}
+.nodePlate {
+  fill: var(--sign-yellow);
+  transition: fill var(--dur-fast) var(--ease-sign);
+}
+.node:hover .nodePlate,
+.node:focus-visible .nodePlate,
+.nodeOn .nodePlate {
+  fill: var(--icon-white);
+}
+.nodeDim .nodePlate {
+  fill: #6b6b6b;
+}
+.gate {
+  fill: var(--sign-black);
+  font-size: 27px;
+  font-weight: 900;
+  letter-spacing: -0.04em;
+  font-variant-numeric: tabular-nums;
+}
+.title {
+  fill: var(--sign-black);
+  font-size: 13.5px;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+}
+.node text {
+  pointer-events: none;
+}
+.node:focus-visible {
+  outline: none;
+}
+.node:focus-visible .focusRing {
+  stroke: var(--sign-yellow);
+  stroke-width: 3;
+  fill: none;
+}
+
+/* ---------- Légende ---------- */
+.legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-3) var(--space-6);
+  margin-top: var(--space-6);
+  padding-top: var(--space-4);
+  border-top: var(--rule-on-black);
+}
+.legendItem {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-3);
+  font-size: var(--t-xs);
+  font-weight: 600;
+  color: var(--ink-black-2);
+}
+.legendSwatch {
+  flex: none;
+}
+
+.srOnly {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
 }

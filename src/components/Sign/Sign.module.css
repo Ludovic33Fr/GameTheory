@@ -1,0 +1,248 @@
+/* ---------- Plaque à pictogramme ---------- */
+.plate {
+  display: inline-grid;
+  place-items: center;
+  flex: none;
+  background: var(--sign-black);
+  color: var(--icon-white);
+  border-radius: var(--r-plate);
+}
+.plateYellow {
+  background: var(--sign-yellow);
+  color: var(--sign-black);
+}
+.plateOutline {
+  background: transparent;
+  color: var(--sign-black);
+  box-shadow: inset 0 0 0 var(--rule-w) var(--sign-black);
+}
+.sm {
+  width: 34px;
+  height: 34px;
+}
+.md {
+  width: 44px;
+  height: 44px;
+}
+.lg {
+  width: clamp(52px, 6vw, 64px);
+  height: clamp(52px, 6vw, 64px);
+}
+
+/* ---------- Boutons ---------- */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-3);
+  background: var(--sign-black);
+  color: var(--icon-white);
+  padding: var(--space-3) var(--space-5) var(--space-3) var(--space-3);
+  border-radius: var(--r-plate);
+  font-weight: 700;
+  font-size: var(--t-base);
+  letter-spacing: -0.01em;
+  transition: background var(--dur-fast) var(--ease-sign);
+}
+.btn:hover:not(:disabled) {
+  background: var(--panel-frame);
+}
+.btn:disabled {
+  cursor: not-allowed;
+  background: transparent;
+  color: var(--ink-yellow-2);
+  box-shadow: inset 0 0 0 var(--rule-w) var(--ink-yellow-2);
+}
+/* Refusé : la marque de hachure, pas une teinte plus pâle. */
+.btn:disabled .btnBox {
+  border-color: currentColor;
+  background: repeating-linear-gradient(
+    -45deg,
+    transparent 0 3px,
+    currentColor 3px 4px
+  );
+}
+.btnBox {
+  display: grid;
+  place-items: center;
+  width: 30px;
+  height: 30px;
+  flex: none;
+  border: 2px solid currentColor;
+  border-radius: 5px;
+}
+.btn:hover:not(:disabled) .btnArrow {
+  transform: translateX(2px);
+}
+.btnArrow {
+  transition: transform var(--dur-fast) var(--ease-sign);
+}
+.btnGhost {
+  background: transparent;
+  color: var(--sign-black);
+  box-shadow: inset 0 0 0 var(--rule-w) var(--sign-black);
+}
+.btnGhost:hover:not(:disabled) {
+  background: var(--sign-black);
+  color: var(--sign-yellow);
+}
+
+/* ---------- Plaque encastrée : la donnée vit ici ---------- */
+.panel {
+  background-color: var(--backplate);
+  background-image: radial-gradient(var(--mark-perf) 1px, transparent 1.2px);
+  background-size: 6px 6px;
+  color: var(--ink-black);
+  border: var(--rule);
+  border-radius: var(--r-card);
+  overflow: hidden;
+}
+.panelHead {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  padding: var(--space-3) var(--space-4);
+  border-bottom: var(--rule-on-black);
+  background: var(--backplate-lit);
+}
+.panelHead .headLabel {
+  font-size: var(--t-2xs);
+  font-weight: 700;
+  letter-spacing: var(--track-label);
+  text-transform: uppercase;
+  color: var(--ink-black-2);
+}
+.panelBody {
+  padding: var(--space-4);
+}
+
+/* ---------- Bandeau de relevé ---------- */
+.readout {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--space-4);
+  padding: var(--space-3) var(--space-4);
+  border-top: var(--rule-on-black);
+}
+.readoutLabel {
+  font-size: var(--t-xs);
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--ink-black-2);
+}
+.readoutValue {
+  font-size: var(--t-lg);
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+  color: var(--sign-yellow);
+  letter-spacing: var(--track-tight);
+}
+
+/* ---------- Volet basculant : le seul geste du monde ---------- */
+.flapWrap {
+  display: inline-block;
+  perspective: 260px;
+}
+.flap {
+  display: inline-block;
+  animation: flap var(--dur-flap) var(--ease-sign);
+  transform-origin: center;
+  backface-visibility: hidden;
+}
+
+/* ---------- Curseur ---------- */
+.range {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 100%;
+  height: 34px;
+  background: transparent;
+  cursor: pointer;
+}
+.range::-webkit-slider-runnable-track {
+  height: 6px;
+  background: #3a3a3a;
+  border-radius: 0;
+}
+.range::-moz-range-track {
+  height: 6px;
+  background: #3a3a3a;
+}
+.range::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 18px;
+  height: 26px;
+  margin-top: -10px;
+  background: var(--sign-yellow);
+  border: 2px solid var(--sign-black);
+  border-radius: 2px;
+}
+.range::-moz-range-thumb {
+  width: 18px;
+  height: 26px;
+  background: var(--sign-yellow);
+  border: 2px solid var(--sign-black);
+  border-radius: 2px;
+}
+
+/* ---------- Champ de saisie ---------- */
+.field {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  background: #000;
+  color: var(--icon-white);
+  border: var(--rule-on-black);
+  border-radius: 6px;
+  padding: var(--space-2) var(--space-3);
+  font-variant-numeric: tabular-nums;
+  font-weight: 600;
+}
+.field:focus-within {
+  border-color: var(--sign-yellow);
+}
+
+/* ---------- Puce de sélection ---------- */
+.chip {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  padding: var(--space-2) var(--space-3);
+  border-radius: 6px;
+  font-size: var(--t-sm);
+  font-weight: 600;
+  color: var(--ink-black-2);
+  box-shadow: inset 0 0 0 2px #3a3a3a;
+  transition: color var(--dur-fast), box-shadow var(--dur-fast);
+}
+.chip:hover {
+  color: var(--icon-white);
+  box-shadow: inset 0 0 0 2px #6a6a6a;
+}
+/* Retenu : la case s'allume ET porte sa marque. */
+.chipOn {
+  background: var(--sign-yellow);
+  color: var(--sign-black);
+  box-shadow: inset 0 0 0 2px var(--sign-yellow);
+}
+.chipOn:hover {
+  color: var(--sign-black);
+  box-shadow: inset 0 0 0 2px var(--sign-yellow-lit);
+}
+.chipMark {
+  display: grid;
+  place-items: center;
+  width: 14px;
+  height: 14px;
+  flex: none;
+  border: 2px solid currentColor;
+  border-radius: 3px;
+}
+.chipMarkOn::after {
+  content: '';
+  width: 6px;
+  height: 6px;
+  background: currentColor;
+}

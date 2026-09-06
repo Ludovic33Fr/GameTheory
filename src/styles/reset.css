@@ -1,22 +1,100 @@
-*, *::before, *::after { box-sizing: border-box; }
-* { margin: 0; }
-html, body { height: 100%; }
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+* {
+  margin: 0;
+}
+html,
+body {
+  height: 100%;
+}
+html {
+  scrollbar-color: var(--sign-black) var(--sign-yellow-shade);
+}
 body {
   line-height: 1.5;
   -webkit-font-smoothing: antialiased;
-  font-family: var(--font-sans);
-  background: var(--bg-base);
-  color: var(--text-primary);
+  font-family: var(--font-sign);
+  font-size: var(--t-base);
+  background: var(--sign-yellow);
+  color: var(--ink-yellow);
 }
-img, picture, video, canvas, svg { display: block; max-width: 100%; }
-input, button, textarea, select { font: inherit; }
-p, h1, h2, h3, h4, h5, h6 { overflow-wrap: break-word; }
-button { cursor: pointer; background: none; border: 0; color: inherit; }
-a { color: inherit; text-decoration: none; }
-:focus-visible { outline: 2px solid var(--accent-primary); outline-offset: 2px; }
+img,
+picture,
+video,
+canvas,
+svg {
+  display: block;
+  max-width: 100%;
+}
+input,
+button,
+textarea,
+select {
+  font: inherit;
+}
+p,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  overflow-wrap: break-word;
+}
+button {
+  cursor: pointer;
+  background: none;
+  border: 0;
+  color: inherit;
+}
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+/* --- Surfaces du navigateur : elles portent le panneau aussi --- */
+::selection {
+  background: var(--sign-black);
+  color: var(--sign-yellow);
+}
+:focus-visible {
+  outline: 3px solid var(--sign-black);
+  outline-offset: 3px;
+  border-radius: 2px;
+}
+/* Sur plaque noire, le liseré s'inverse pour rester visible. */
+.onBlack :focus-visible,
+.onBlack:focus-visible {
+  outline-color: var(--sign-yellow);
+}
+input,
+textarea {
+  caret-color: var(--sign-black);
+}
+::-webkit-scrollbar {
+  width: 14px;
+  height: 14px;
+}
+::-webkit-scrollbar-track {
+  background: var(--sign-yellow-shade);
+}
+::-webkit-scrollbar-thumb {
+  background: var(--sign-black);
+  border: 3px solid var(--sign-yellow-shade);
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--panel-frame);
+}
+
 @media (prefers-reduced-motion: reduce) {
-  *, *::before, *::after {
+  *,
+  *::before,
+  *::after {
     animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
   }
 }

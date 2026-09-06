@@ -1,3 +1,4 @@
+import { Pictogram } from '../Sign';
 import styles from './CumulativeChart.module.css';
 
 interface Props {
@@ -28,7 +29,8 @@ export function CumulativeChart({
 }: Props) {
   if (you.length === 0) {
     return (
-      <div className={styles.empty}>
+      <div className={`${styles.empty} onBlack`}>
+        <Pictogram id="info" size={18} />
         Le graphique apparaîtra après le premier coup joué.
       </div>
     );
@@ -59,20 +61,21 @@ export function CumulativeChart({
   const oppLast = opp[opp.length - 1];
 
   return (
-    <div className={styles.wrap}>
+    <div className={`${styles.wrap} onBlack`}>
       <div className={styles.header}>
-        <span className="label-mono">Score cumulé</span>
+        <span className={styles.title}>Score cumulé</span>
         <div className={styles.legend}>
           <span className={styles.legendItem}>
-            <span className={styles.swatch} style={{ background: 'var(--accent-primary)' }} />
-            {youLabel} <span style={{ color: 'var(--text-primary)' }}>{youLast}</span>
+            <span className={`${styles.swatch} ${styles.swatchYou}`} />
+            {youLabel} <span className={styles.legendValue}>{youLast}</span>
           </span>
           <span className={styles.legendItem}>
-            <span className={styles.swatch} style={{ background: 'var(--accent-secondary)' }} />
-            {oppLabel} <span style={{ color: 'var(--text-primary)' }}>{oppLast}</span>
+            <span className={`${styles.swatch} ${styles.swatchOpp}`} />
+            {oppLabel} <span className={styles.legendValue}>{oppLast}</span>
           </span>
         </div>
       </div>
+      <div className={styles.body}>
       <svg viewBox={`0 0 ${W} ${H}`} className={styles.svg} role="img" aria-label="Score cumulé">
         {ticks.map((t) => (
           <g key={t}>
@@ -102,17 +105,14 @@ export function CumulativeChart({
           tours
         </text>
 
-        <path d={buildPath(opp)} fill="none" stroke="var(--accent-secondary)" strokeWidth="2" />
-        <path d={buildPath(you)} fill="none" stroke="var(--accent-primary)" strokeWidth="2.5" />
+        <path d={buildPath(opp)} className={styles.lineOpp} />
+        <path d={buildPath(you)} className={styles.lineYou} />
 
-        <circle cx={x(N)} cy={y(youLast)} r="3.5" fill="var(--accent-primary)" />
-        <circle cx={x(N)} cy={y(oppLast)} r="3" fill="var(--accent-secondary)" />
+        <rect x={x(N) - 5} y={y(youLast) - 5} width="10" height="10" fill="var(--sign-yellow)" />
+        <circle cx={x(N)} cy={y(oppLast)} r="4" fill="var(--icon-white)" />
       </svg>
-      {caption && (
-        <p style={{ marginTop: 'var(--space-2)', color: 'var(--text-muted)', fontSize: 'var(--text-xs)' }}>
-          {caption}
-        </p>
-      )}
+      </div>
+      {caption && <p className={styles.caption}>{caption}</p>}
     </div>
   );
 }

@@ -38,3 +38,6 @@ coverage/
 
 # Local Claude Code settings (per-machine permissions)
 .claude/settings.local.json
+
+# Captures de revue Impeccable (fichiers de travail)
+.impeccable/review/

@@ -1,32 +1,62 @@
 .wrap {
-  background: var(--bg-elevated);
-  border: 1px solid var(--border-default);
-  border-radius: var(--radius-lg);
-  padding: var(--space-4);
+  background: #0a0a0a;
+  border: var(--rule-on-black);
+  border-radius: var(--r-card);
+  overflow: hidden;
 }
 .header {
   display: flex;
+  align-items: center;
   justify-content: space-between;
-  align-items: baseline;
-  margin-bottom: var(--space-3);
+  flex-wrap: wrap;
+  gap: var(--space-3);
+  padding: var(--space-3) var(--space-4);
+  background: var(--backplate-lit);
+  border-bottom: var(--rule-on-black);
+}
+.title {
+  font-size: var(--t-2xs);
+  font-weight: 700;
+  letter-spacing: var(--track-label);
+  text-transform: uppercase;
+  color: var(--ink-black-2);
 }
 .legend {
   display: flex;
-  gap: var(--space-4);
-  font-size: var(--text-xs);
-  font-family: var(--font-mono);
+  gap: var(--space-5);
+  font-size: var(--t-xs);
+  font-weight: 600;
 }
 .legendItem {
   display: flex;
   align-items: center;
   gap: var(--space-2);
-  color: var(--text-secondary);
+  color: var(--ink-black-2);
+}
+.legendValue {
+  color: var(--icon-white);
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
 }
 .swatch {
   display: inline-block;
-  width: 12px;
-  height: 3px;
-  border-radius: 1px;
+  width: 20px;
+  height: 4px;
+  flex: none;
+}
+.swatchYou {
+  background: var(--sign-yellow);
+}
+/* La série adverse se distingue au tracé autant qu'au ton. */
+.swatchOpp {
+  background: repeating-linear-gradient(
+    to right,
+    var(--icon-white) 0 5px,
+    transparent 5px 9px
+  );
+}
+.body {
+  padding: var(--space-4);
 }
 .svg {
   width: 100%;
@@ -34,26 +64,51 @@
   display: block;
 }
 .gridline {
-  stroke: var(--border-subtle);
-  stroke-dasharray: 2 4;
+  stroke: #2a2a2a;
+  stroke-dasharray: 2 5;
 }
 .zeroLine {
-  stroke: var(--border-default);
+  stroke: #4d4d4d;
+  stroke-width: 1.5;
 }
 .axis {
-  stroke: var(--border-default);
+  stroke: #4d4d4d;
+  stroke-width: 1.5;
 }
 .tickLabel {
-  fill: var(--text-muted);
-  font-size: 10px;
-  font-family: var(--font-mono);
+  fill: #8e8b84;
+  font-size: 11px;
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+}
+.lineYou {
+  fill: none;
+  stroke: var(--sign-yellow);
+  stroke-width: 3;
+  stroke-linejoin: round;
+}
+.lineOpp {
+  fill: none;
+  stroke: var(--icon-white);
+  stroke-width: 2.5;
+  stroke-dasharray: 7 5;
+  stroke-linejoin: round;
+}
+.caption {
+  padding: 0 var(--space-4) var(--space-4);
+  font-size: var(--t-xs);
+  line-height: 1.5;
+  color: var(--ink-black-2);
+  max-width: 62ch;
 }
 .empty {
-  padding: var(--space-8);
-  text-align: center;
-  color: var(--text-muted);
-  font-size: var(--text-sm);
-  background: var(--bg-elevated);
-  border: 1px solid var(--border-default);
-  border-radius: var(--radius-lg);
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  padding: var(--space-8) var(--space-6);
+  background: #0a0a0a;
+  border: var(--rule-on-black);
+  border-radius: var(--r-card);
+  color: var(--ink-black-2);
+  font-size: var(--t-sm);
 }

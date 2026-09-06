@@ -1,0 +1,578 @@
+/* ------------------------------------------------------------------ *
+ * Vocabulaire commun des démonstrations. Elles vivent toutes sur la
+ * plaque noire du terminal : cases sombres, chiffres tabulaires,
+ * jaune réservé à ce qui est retenu ou atteint.
+ * ------------------------------------------------------------------ */
+
+.rack {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  gap: var(--space-5);
+}
+.grow {
+  flex: 1;
+  min-width: 260px;
+  /* Un bloc de lecture ne s'étire pas à la largeur du terminal. */
+  max-width: 52ch;
+}
+.stack {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+}
+
+/* Carte de la plaque : tout bloc de démonstration. */
+.card {
+  background: #0a0a0a;
+  border: var(--rule-on-black);
+  border-radius: var(--r-card);
+  padding: var(--space-4);
+}
+.cardTitle {
+  font-size: var(--t-2xs);
+  font-weight: 700;
+  letter-spacing: var(--track-label);
+  text-transform: uppercase;
+  color: var(--ink-black-2);
+  margin-bottom: var(--space-3);
+}
+
+/* Bloc de lecture attaché à une démonstration. */
+.note {
+  font-size: var(--t-sm);
+  line-height: 1.65;
+  color: var(--ink-black-2);
+}
+.note strong {
+  display: block;
+  margin-bottom: var(--space-2);
+  color: var(--icon-white);
+  font-size: var(--t-base);
+  font-weight: 700;
+}
+.note p + p {
+  margin-top: var(--space-2);
+}
+
+/* Sous-section d'une démonstration. */
+.section {
+  margin-top: var(--space-10);
+  padding-top: var(--space-8);
+  border-top: var(--rule-on-black);
+}
+.sectionHead {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  margin-bottom: var(--space-3);
+}
+.sectionTitle {
+  font-size: var(--t-lg);
+  font-weight: 900;
+  letter-spacing: -0.02em;
+  line-height: 1;
+}
+.hint {
+  max-width: 68ch;
+  font-size: var(--t-sm);
+  line-height: 1.6;
+  color: var(--ink-black-2);
+  margin-bottom: var(--space-5);
+}
+
+/* ---------- Liste de choix ---------- */
+.choices {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+.choice {
+  display: block;
+  width: 100%;
+  text-align: left;
+  padding: var(--space-3);
+  border-radius: 6px;
+  box-shadow: inset 0 0 0 2px #333;
+  transition: box-shadow var(--dur-fast) var(--ease-sign),
+    background var(--dur-fast) var(--ease-sign);
+}
+.choice:hover {
+  box-shadow: inset 0 0 0 2px #6a6a6a;
+}
+.choiceOn {
+  background: var(--sign-yellow);
+  box-shadow: inset 0 0 0 2px var(--sign-yellow);
+}
+.choiceName {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  font-size: var(--t-sm);
+  font-weight: 700;
+  color: var(--icon-white);
+}
+.choiceOn .choiceName {
+  color: var(--sign-black);
+}
+.choiceDesc {
+  margin-top: 3px;
+  font-size: var(--t-xs);
+  line-height: 1.45;
+  color: var(--ink-black-2);
+}
+.choiceOn .choiceDesc {
+  color: rgba(11, 11, 11, 0.72);
+}
+/* Retenu : une case cochée, lisible sans la couleur. */
+.mark {
+  display: inline-grid;
+  place-items: center;
+  width: 15px;
+  height: 15px;
+  flex: none;
+  border: 2px solid currentColor;
+  border-radius: 3px;
+}
+.markOn::after {
+  content: '';
+  width: 7px;
+  height: 7px;
+  background: currentColor;
+}
+
+/* ---------- Actions ---------- */
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-3);
+}
+.play {
+  flex: 1;
+  min-width: 130px;
+  padding: var(--space-3) var(--space-4);
+  border-radius: 6px;
+  font-size: var(--t-base);
+  font-weight: 700;
+  background: var(--sign-yellow);
+  color: var(--sign-black);
+  transition: background var(--dur-fast) var(--ease-sign);
+}
+.play:hover {
+  background: var(--sign-yellow-lit);
+}
+.playAlt {
+  background: transparent;
+  color: var(--sign-yellow);
+  box-shadow: inset 0 0 0 2px var(--sign-yellow);
+}
+.playAlt:hover {
+  background: rgba(255, 204, 0, 0.14);
+}
+.reset {
+  padding: var(--space-3) var(--space-4);
+  border-radius: 6px;
+  font-size: var(--t-sm);
+  font-weight: 700;
+  color: var(--ink-black-2);
+  box-shadow: inset 0 0 0 2px #333;
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+}
+.reset:hover:not(:disabled) {
+  color: var(--icon-white);
+  box-shadow: inset 0 0 0 2px #6a6a6a;
+}
+/* Refusé : le libellé reste lisible, c'est la hachure qui dit « pas maintenant ». */
+.reset:disabled {
+  cursor: not-allowed;
+  color: #8f8c85;
+  box-shadow: inset 0 0 0 2px #2e2e2e;
+  background-image: repeating-linear-gradient(
+    -45deg,
+    rgba(255, 255, 255, 0.055) 0 6px,
+    transparent 6px 12px
+  );
+}
+
+/* ---------- Relevés ---------- */
+.stats {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: var(--space-2);
+  margin-top: var(--space-4);
+}
+.stat {
+  padding: var(--space-2) var(--space-3);
+  background: #171717;
+  border-radius: 6px;
+  text-align: center;
+}
+.statLabel {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  font-size: var(--t-2xs);
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--ink-black-2);
+}
+.statValue {
+  margin-top: 2px;
+  font-size: var(--t-xl);
+  font-weight: 900;
+  letter-spacing: -0.03em;
+  font-variant-numeric: tabular-nums;
+  color: var(--icon-white);
+}
+.statLead .statValue {
+  color: var(--sign-yellow);
+}
+
+.last {
+  margin-top: var(--space-3);
+  padding: var(--space-3);
+  background: #171717;
+  border-radius: 6px;
+  font-size: var(--t-sm);
+  color: var(--ink-black-2);
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+}
+.lastStrong {
+  color: var(--icon-white);
+  font-weight: 700;
+}
+.lastPayoff {
+  font-variant-numeric: tabular-nums;
+  color: var(--sign-yellow);
+  font-weight: 700;
+}
+
+/* ---------- Curseurs ---------- */
+.sliderRow + .sliderRow {
+  margin-top: var(--space-4);
+}
+.sliderHead {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: var(--space-3);
+  font-size: var(--t-sm);
+  font-weight: 600;
+  color: var(--ink-black-2);
+  margin-bottom: var(--space-1);
+}
+.sliderValue {
+  font-variant-numeric: tabular-nums;
+  font-weight: 700;
+  color: var(--sign-yellow);
+  font-size: var(--t-base);
+}
+
+/* ---------- Champ numérique ---------- */
+.numField {
+  width: 88px;
+  padding: var(--space-2) var(--space-3);
+  background: #000;
+  color: var(--icon-white);
+  border: 2px solid #333;
+  border-radius: 6px;
+  font-variant-numeric: tabular-nums;
+  font-weight: 700;
+}
+.numField:focus-visible {
+  border-color: var(--sign-yellow);
+  outline-color: var(--sign-yellow);
+}
+.fieldRow {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  flex-wrap: wrap;
+  font-size: var(--t-sm);
+  font-weight: 600;
+  color: var(--ink-black-2);
+}
+
+/* ---------- Tableau de classement ---------- */
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  font-variant-numeric: tabular-nums;
+}
+.table th {
+  padding: var(--space-2) var(--space-3);
+  text-align: left;
+  font-size: var(--t-2xs);
+  font-weight: 700;
+  letter-spacing: var(--track-label);
+  text-transform: uppercase;
+  color: var(--ink-black-2);
+  border-bottom: var(--rule-on-black);
+}
+.table td {
+  padding: var(--space-3);
+  border-bottom: 1px solid #232323;
+  font-size: var(--t-sm);
+  color: var(--icon-white);
+}
+.table tr:last-child td {
+  border-bottom: 0;
+}
+.numCol {
+  text-align: right;
+}
+.rank {
+  font-weight: 900;
+  color: var(--ink-black-2);
+  width: 1%;
+  white-space: nowrap;
+}
+.rankTop {
+  color: var(--sign-yellow);
+}
+
+/* ---------- Alerte : la hachure de danger, pas une teinte ---------- */
+.warnStrip {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  margin-top: var(--space-4);
+  padding: var(--space-3) var(--space-4);
+  border-radius: 6px;
+  background: var(--sign-yellow);
+  color: var(--sign-black);
+  font-size: var(--t-sm);
+  font-weight: 700;
+  line-height: 1.4;
+  background-image: repeating-linear-gradient(
+    -45deg,
+    rgba(11, 11, 11, 0.18) 0 8px,
+    transparent 8px 18px
+  );
+}
+
+/* ---------- Journal de coups ---------- */
+.log {
+  list-style: none;
+  padding: 0;
+  margin: var(--space-4) 0 0;
+  font-variant-numeric: tabular-nums;
+  font-size: var(--t-sm);
+}
+.logItem {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  padding: var(--space-2) 0;
+  border-top: 1px solid #232323;
+  color: var(--ink-black-2);
+}
+.logWin {
+  color: var(--sign-yellow);
+  font-weight: 700;
+}
+.logLoss {
+  color: var(--icon-white);
+}
+
+@media (max-width: 480px) {
+  .stats {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+/* ---------- Onglets de préréglage ---------- */
+.tabs {
+  display: flex;
+  gap: var(--space-2);
+  flex-wrap: wrap;
+  margin-bottom: var(--space-5);
+}
+.tab {
+  padding: var(--space-2) var(--space-4);
+  border-radius: 6px;
+  font-size: var(--t-sm);
+  font-weight: 700;
+  color: var(--ink-black-2);
+  box-shadow: inset 0 0 0 2px #333;
+  transition: color var(--dur-fast), box-shadow var(--dur-fast);
+}
+.tab:hover {
+  color: var(--icon-white);
+  box-shadow: inset 0 0 0 2px #6a6a6a;
+}
+.tabOn {
+  background: var(--sign-yellow);
+  color: var(--sign-black);
+  box-shadow: inset 0 0 0 2px var(--sign-yellow);
+}
+.tabOn:hover {
+  color: var(--sign-black);
+  box-shadow: inset 0 0 0 2px var(--sign-yellow-lit);
+}
+
+/* ---------- Relevé principal : le volet qui bascule ---------- */
+.countStrip {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  flex-wrap: wrap;
+  margin-top: var(--space-4);
+}
+.count {
+  display: inline-flex;
+  align-items: baseline;
+  gap: var(--space-2);
+  padding: var(--space-2) var(--space-4);
+  background: var(--sign-yellow);
+  color: var(--sign-black);
+  border-radius: 6px;
+  font-weight: 700;
+  font-size: var(--t-sm);
+}
+.countNum {
+  font-size: var(--t-xl);
+  font-weight: 900;
+  font-variant-numeric: tabular-nums;
+  letter-spacing: -0.03em;
+}
+
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: var(--t-2xs);
+  font-weight: 700;
+  letter-spacing: var(--track-label);
+  text-transform: uppercase;
+  color: var(--sign-yellow);
+}
+.insight {
+  margin-top: var(--space-3);
+  padding-top: var(--space-3);
+  border-top: var(--rule-on-black);
+  color: var(--sign-yellow);
+  font-size: var(--t-sm);
+  font-weight: 700;
+  line-height: 1.5;
+}
+.steps {
+  margin: 0;
+  padding-left: var(--space-5);
+  font-size: var(--t-sm);
+  line-height: 1.6;
+  color: var(--ink-black-2);
+}
+.steps li + li {
+  margin-top: var(--space-2);
+}
+.steps em {
+  color: var(--icon-white);
+  font-style: normal;
+  font-weight: 700;
+}
+
+/* ---------- Arbre de jeu : la branche est un trait, pas un liseré ---------- */
+.treePlayer {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  font-size: var(--t-2xs);
+  font-weight: 700;
+  letter-spacing: var(--track-label);
+  text-transform: uppercase;
+  color: var(--sign-yellow);
+}
+.treeBranch {
+  position: relative;
+  margin-top: var(--space-2);
+  padding-left: var(--space-6);
+}
+.treeBranch::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 2px;
+  background: #333;
+}
+.treeBranch:last-child::before {
+  bottom: auto;
+  height: 14px;
+}
+.treeBranch::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 13px;
+  width: var(--space-5);
+  height: 2px;
+  background: #333;
+}
+.treeBranchOn::before,
+.treeBranchOn::after {
+  background: var(--sign-yellow);
+}
+.treeAction {
+  font-size: var(--t-sm);
+  font-weight: 600;
+  color: var(--ink-black-2);
+  padding: var(--space-1) 0;
+}
+.treeBranchOn > .treeAction {
+  color: var(--sign-yellow);
+  font-weight: 700;
+}
+.treeNode {
+  margin-top: var(--space-3);
+}
+.treeLeaf {
+  display: inline-flex;
+  align-items: baseline;
+  gap: var(--space-3);
+  margin-top: var(--space-2);
+  padding: var(--space-2) var(--space-3);
+  background: #171717;
+  border-radius: 6px;
+  font-size: var(--t-sm);
+}
+.treeLeafLabel {
+  color: var(--ink-black-2);
+}
+.treeLeafPayoff {
+  color: var(--icon-white);
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+}
+.treeLeafOn {
+  background: var(--sign-yellow);
+}
+.treeLeafOn .treeLeafLabel {
+  color: rgba(11, 11, 11, 0.72);
+}
+.treeLeafOn .treeLeafPayoff {
+  color: var(--sign-black);
+}
+.solution {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  flex-wrap: wrap;
+  margin-top: var(--space-4);
+}
+.solutionText {
+  font-size: var(--t-sm);
+  color: var(--ink-black-2);
+}
+.solutionText strong {
+  color: var(--sign-yellow);
+  font-variant-numeric: tabular-nums;
+}
