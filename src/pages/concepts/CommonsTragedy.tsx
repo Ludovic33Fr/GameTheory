@@ -168,7 +168,7 @@ export default function CommonsTragedyPage() {
   return (
     <ConceptPage
       conceptId="commons"
-      conceptNumber={6}
+      conceptNumber={7}
       category={commonsContent.category}
       summary={commonsContent.summary}
       demoHint="Ajoute des bergers ou des bêtes : la position courante glisse le long de la courbe jusqu'à la faire chuter."

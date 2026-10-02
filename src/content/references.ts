@@ -45,6 +45,13 @@ export const references: Reference[] = [
     blurb: 'Application de la théorie des jeux à la biologie : stratégies évolutionnairement stables, faucons et colombes.',
   },
   {
+    id: 'skyrms',
+    author: 'Brian Skyrms',
+    title: 'The Stag Hunt and the Evolution of Social Structure',
+    year: 2004,
+    blurb: "Petit livre sur la chasse au cerf comme modèle du contrat social : comment la confiance se propage, ou non, dans une population.",
+  },
+  {
     id: 'osborne',
     author: 'Martin J. Osborne',
     title: 'An Introduction to Game Theory',

@@ -139,7 +139,7 @@ export default function MixedStrategiesPage() {
   return (
     <ConceptPage
       conceptId="mixed"
-      conceptNumber={3}
+      conceptNumber={4}
       category={mixedStrategiesContent.category}
       summary={mixedStrategiesContent.summary}
       demoHint="Déséquilibre le bot avec les curseurs, puis joue : l'espérance bascule dès que le mélange n'est plus uniforme."

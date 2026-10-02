@@ -1,4 +1,5 @@
 import type { NormalFormGame } from './types';
+import { makeStagHunt } from './stagHunt';
 
 /**
  * Jeux en forme normale utilisés par les fiches du guichet « Quel jeu ? ».
@@ -7,21 +8,7 @@ import type { NormalFormGame } from './types';
  */
 
 /** Chasse au cerf : coopérer rapporte plus, mais seul le lièvre est sûr. */
-export const stagHunt: NormalFormGame = {
-  id: 'stag-hunt',
-  name: 'Chasse au cerf',
-  players: 2,
-  actions: [
-    ['Cerf', 'Lièvre'],
-    ['Cerf', 'Lièvre'],
-  ],
-  payoff: ([a, b]) => {
-    if (a === 'Cerf' && b === 'Cerf') return [4, 4];
-    if (a === 'Cerf' && b === 'Lièvre') return [0, 3];
-    if (a === 'Lièvre' && b === 'Cerf') return [3, 0];
-    return [3, 3];
-  },
-};
+export const stagHunt: NormalFormGame = makeStagHunt();
 
 /** Coordination pure : peu importe le choix, pourvu qu'il soit le même. */
 export const pureCoordination: NormalFormGame = {

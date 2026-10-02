@@ -16,7 +16,7 @@ Le site est en français.
 
 ## Product Purpose
 
-Rendre six concepts fondamentaux de théorie des jeux compréhensibles par la manipulation directe.
+Rendre sept concepts fondamentaux de théorie des jeux compréhensibles par la manipulation directe.
 Chaque concept a une démonstration cliquable qui fait comprendre avant que le texte n'explique.
 Le succès n'est pas « une page lue » mais **« trois concepts visités »** : le visiteur arrive pour
 un concept et repart en ayant suivi les liens vers deux autres. Les relations entre concepts, et
@@ -38,8 +38,8 @@ page doit être auto-suffisante et proposer sa propre suite.
 
 ## Capabilities and Constraints
 
-- Six concepts : dilemme du prisonnier, équilibre de Nash, stratégies mixtes, dilemme itéré,
-  jeux séquentiels, tragédie des biens communs. Routes en français, déjà publiques.
+- Sept concepts : dilemme du prisonnier, équilibre de Nash, chasse au cerf, stratégies mixtes,
+  dilemme itéré, jeux séquentiels, tragédie des biens communs. Routes en français, déjà publiques.
 - Pages transverses : `/glossaire`, `/aller-plus-loin`, 404.
 - Démonstrations interactives réelles : `PayoffMatrix`, `EditablePayoffMatrix` (gains éditables,
   équilibre recalculé), tournoi Axelrod avec sélecteur de stratégies, `CumulativeChart`, `HubMap`.

@@ -20,11 +20,11 @@ export default function HomePage() {
         <Plate icon="arrowDown" size="lg" />
         <h1 className={styles.marqueeHead}>
           <span className={styles.marqueeKind}>Concepts</span>
-          <span className={styles.marqueeRange}>01&ndash;06</span>
+          <span className={styles.marqueeRange}>01&ndash;07</span>
         </h1>
         <div className={styles.marqueeSide}>
           <p>
-            Six concepts fondamentaux, expliqués avec des démos cliquables. Chaque concept
+            Sept concepts fondamentaux, expliqués avec des démos cliquables. Chaque concept
             indique ses correspondances : aucune page n'est un cul-de-sac.
           </p>
           <span className={styles.walk}>
@@ -34,7 +34,7 @@ export default function HomePage() {
         </div>
       </section>
 
-      <nav className={styles.rows} aria-label="Les six concepts">
+      <nav className={styles.rows} aria-label="Les sept concepts">
         {CONCEPT_ROUTES.map((c) => {
           const links = connectionsOf(c.id);
           const games = gamesForConcept(c.id);

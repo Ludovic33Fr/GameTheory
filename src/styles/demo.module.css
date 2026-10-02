@@ -625,3 +625,45 @@
   background: #000;
   color: var(--icon-white);
 }
+
+/* ---------- Part d'une population : une courbe, une ligne de partage ---------- */
+.shareSvg {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+.shareGrid {
+  stroke: #2a2a2a;
+  stroke-dasharray: 2 5;
+}
+.shareAxis {
+  stroke: #4d4d4d;
+  stroke-width: 1.5;
+}
+.shareTick {
+  fill: #8e8b84;
+  font-size: 11px;
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+}
+/* Le seuil se lit au tracé autant qu'au ton : tirets blancs, courbe jaune pleine. */
+.shareThreshold {
+  stroke: var(--icon-white);
+  stroke-width: 2;
+  stroke-dasharray: 7 5;
+}
+.shareThresholdLabel {
+  fill: var(--icon-white);
+  font-size: 11px;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+}
+.shareLine {
+  fill: none;
+  stroke: var(--sign-yellow);
+  stroke-width: 3;
+  stroke-linejoin: round;
+}
+.shareDot {
+  fill: var(--sign-yellow);
+}

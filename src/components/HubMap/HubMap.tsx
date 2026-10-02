@@ -12,28 +12,36 @@ import {
 import styles from './HubMap.module.css';
 
 const W = 900;
-const H = 440;
+const H = 550;
 const PLATE_W = 196;
 const PLATE_H = 66;
 
+/*
+ * Colonne de gauche : le dilemme et ce qu'on en tire — sa variante (la chasse
+ * au cerf, au-dessus) et sa répétition (en dessous). Centre : l'équilibre, puis
+ * le passage à N joueurs. Droite : les deux extensions de l'équilibre.
+ * Aucune arête n'en croise une autre.
+ */
 const POS: Record<ConceptId, { x: number; y: number }> = {
-  iterated: { x: 150, y: 66 },
+  staghunt: { x: 150, y: 66 },
   sequential: { x: 750, y: 66 },
   nash: { x: 450, y: 176 },
   prisoners: { x: 150, y: 286 },
   mixed: { x: 750, y: 286 },
   commons: { x: 450, y: 396 },
+  iterated: { x: 150, y: 506 },
 };
 
 const EDGE_CLASS: Record<EdgeKind, string> = {
   exemple: styles.edgeExemple,
+  variante: styles.edgeVariante,
   extension: styles.edgeExtension,
   repetition: styles.edgeRepetition,
   echelle: styles.edgeEchelle,
 };
 
 interface HubMapProps {
-  /** Destination mise en avant, partagée avec le panneau des six lignes. */
+  /** Destination mise en avant, partagée avec le panneau des sept lignes. */
   active?: ConceptId | null;
   onActive?: (id: ConceptId | null) => void;
 }
@@ -57,7 +65,7 @@ export function HubMap({ active = null, onActive }: HubMapProps) {
           viewBox={`0 0 ${W} ${H}`}
           className={styles.svg}
           role="img"
-          aria-label="Plan des six concepts et de leurs correspondances"
+          aria-label="Plan des sept concepts et de leurs correspondances"
         >
           {CONCEPT_EDGES.map((e, i) => {
             const a = POS[e.from];
@@ -143,7 +151,7 @@ export function HubMap({ active = null, onActive }: HubMapProps) {
 
       <p className={styles.scrollHint}>
         <Pictogram id="arrowRight" size={14} />
-        Fais glisser le plan pour voir les six destinations
+        Fais glisser le plan pour voir les sept destinations
       </p>
 
       <ul className={styles.legend}>

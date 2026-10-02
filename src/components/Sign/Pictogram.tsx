@@ -8,6 +8,7 @@ import type { ReactElement } from 'react';
 export type PictogramId =
   | 'prisoners'
   | 'nash'
+  | 'staghunt'
   | 'mixed'
   | 'iterated'
   | 'sequential'
@@ -47,6 +48,24 @@ const SHAPES: Record<PictogramId, ReactElement> = {
       <path d="M14 16 9.4 11.2v9.6Z" />
       <rect x="22" y="14.6" width="8.5" height="2.8" />
       <path d="M18 16l4.6 4.8v-9.6Z" />
+    </>
+  ),
+  /* Deux chasseurs, une seule cible : le cerf ne se prend qu'à deux. */
+  staghunt: (
+    <>
+      <circle cx="16" cy="7" r="4.4" fill="none" stroke="currentColor" strokeWidth="2.8" />
+      <circle cx="16" cy="7" r="1.6" />
+      <path
+        d="M9.6 15.4 13 10.4M22.4 15.4 19 10.4"
+        fill="none"
+        stroke="currentColor"
+        strokeWidth="2.6"
+        strokeLinecap="round"
+      />
+      <circle cx="7" cy="19" r="3.1" />
+      <path d="M2.6 31c0-5.6 1.7-8.6 4.4-8.6s4.4 3 4.4 8.6Z" />
+      <circle cx="25" cy="19" r="3.1" />
+      <path d="M20.6 31c0-5.6 1.7-8.6 4.4-8.6s4.4 3 4.4 8.6Z" />
     </>
   ),
   /* Une distribution : la stratégie n'est plus un choix mais des poids. */

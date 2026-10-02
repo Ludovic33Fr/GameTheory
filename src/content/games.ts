@@ -157,7 +157,8 @@ export const GAMES: GameSheet[] = [
       "Deux équilibres : (Cerf, Cerf), le meilleur pour tous, et (Lièvre, Lièvre), le plus sûr. Contrairement au dilemme du prisonnier, personne n'a intérêt à trahir une coopération établie — le problème est de s'y engager sans garantie.",
     lesson:
       "Ce n'est pas un problème d'incitation mais de confiance. Ce qui débloque le cerf, ce sont les signaux crédibles, les engagements visibles, l'historique commun : tout ce qui rend l'autre prévisible.",
-    concepts: ['nash', 'iterated'],
+    concepts: ['staghunt', 'nash', 'iterated'],
+    onSite: 'staghunt',
   },
   {
     id: 'bataille-des-sexes',

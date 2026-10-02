@@ -20,6 +20,9 @@ export const glossary: GlossaryEntry[] = [
   { id: 'trahison', term: 'Trahison', definition: "Action qui privilégie l'intérêt individuel à court terme au détriment du bien commun." },
   { id: 'somme-nulle', term: 'Jeu à somme nulle', definition: 'Jeu où la somme des gains de tous les joueurs vaut zéro à chaque issue : ce que l\'un gagne, l\'autre le perd.' },
   { id: 'externalite', term: 'Externalité', definition: "Effet d'une décision sur des tiers qui n'est pas reflété dans le paiement du décideur." },
+  { id: 'jeu-de-coordination', term: 'Jeu de coordination', definition: "Jeu à plusieurs équilibres où les joueurs gagnent à faire le même choix : la difficulté n'est pas l'incitation mais l'accord sur l'équilibre à jouer." },
+  { id: 'dominance-en-paiement', term: 'Dominance en paiement', definition: "Un équilibre domine en paiement s'il donne à chaque joueur un gain au moins aussi bon que tout autre équilibre. Dans la chasse au cerf : (Cerf, Cerf)." },
+  { id: 'dominance-en-risque', term: 'Dominance en risque', definition: "Un équilibre domine en risque s'il reste le meilleur choix quand on est très incertain de ce que fera l'autre. Dans la chasse au cerf : (Lièvre, Lièvre)." },
 ];
 
 export function findGlossaryEntry(id: string): GlossaryEntry | undefined {

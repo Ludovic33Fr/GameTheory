@@ -13,7 +13,7 @@ import styles from './ConceptPage.module.css';
 
 interface ConceptPageProps {
   conceptId: ConceptId;
-  conceptNumber: number; // 01..06
+  conceptNumber: number; // 01..07
   category: string; // ex: "Jeu simultané"
   summary: string;
   demo: ReactNode; // composant interactif

@@ -1,6 +1,6 @@
 ---
 name: GameTheory
-description: Six concepts de théorie des jeux signalés comme un terminal d'aéroport.
+description: Sept concepts de théorie des jeux signalés comme un terminal d'aéroport.
 colors:
   sign-yellow: "#ffcc00"
   sign-yellow-lit: "#ffdb47"
@@ -236,7 +236,7 @@ une étiquette de région à 120px/900 pour un numéro de porte, sans jamais cha
 **La règle du surtitre interdit.** Aucune petite étiquette tracée ne se pose au-dessus d'un
 titre plus gros. Une région est nommée par son propre titre, accompagné de sa plaque à
 pictogramme. Le seul couple à deux échelles autorisé est celui du panneau lui-même
-(« Concepts » / « 01–06 »), parce qu'il forme un seul énoncé et qu'il vient de la grammaire
+(« Concepts » / « 01–07 »), parce qu'il forme un seul énoncé et qu'il vient de la grammaire
 typographique du panneau de référence.
 
 **La règle des chiffres tabulaires.** Tout chiffre comparable — gain, score, numéro de porte,
@@ -347,13 +347,17 @@ lecture d'écran seule et il ne reste que les pictogrammes ; sous 560px la piste
 tombe, la marque jamais.
 
 ### Le plan du terminal (composant signature)
-Le réseau des six concepts en SVG sur plaque noire. Les nœuds sont des plaques jaunes de
-196×66 portant un numéro de porte et un titre sur deux lignes ; ce sont de vrais `<a href>`
-SVG, avec navigation client interceptée. **Le tracé porte le type de la correspondance** :
-trait plein de 6px pour un exemple canonique, plein de 3px pour une extension, tirets pour une
-répétition, double trait (évidement de 3px dans un trait de 8px) pour un passage à N joueurs.
-Survoler une destination allume ses arêtes et éteint les autres — et le même survol allume la
-ligne correspondante dans le panneau des six destinations, dans les deux sens.
+Le réseau des sept concepts en SVG sur plaque noire (900×550). Les nœuds sont des plaques
+jaunes de 196×66 portant un numéro de porte et un titre sur deux lignes ; ce sont de vrais
+`<a href>` SVG, avec navigation client interceptée. Trois colonnes : à gauche le dilemme du
+prisonnier entre sa variante (la chasse au cerf, au-dessus) et sa répétition (en dessous) ;
+au centre l'équilibre de Nash puis le passage à N joueurs ; à droite les deux extensions de
+l'équilibre. Aucune arête n'en croise une autre. **Le tracé porte le type de la
+correspondance** : trait plein de 6px pour un exemple canonique, pointillé rond de 4px pour une
+variante, plein de 3px pour une extension, tirets pour une répétition, double trait (évidement
+de 3px dans un trait de 8px) pour un passage à N joueurs. Survoler une destination allume ses
+arêtes et éteint les autres — et le même survol allume la ligne correspondante dans le panneau
+des sept destinations, dans les deux sens.
 
 ### La ligne de destination (accueil)
 Chaque porte de l'accueil porte trois lignes sous son titre : le titre lui-même (le lien,

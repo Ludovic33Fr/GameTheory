@@ -13,7 +13,7 @@ export function Footer() {
             <span className={styles.brandName}>GameTheory</span>
           </Link>
           <p className={styles.tagline}>
-            Six concepts de théorie des jeux, expliqués par des démonstrations qu'on manipule.
+            Sept concepts de théorie des jeux, expliqués par des démonstrations qu'on manipule.
           </p>
         </div>
 
@@ -21,7 +21,7 @@ export function Footer() {
           <div>
             <h2 className={styles.colTitle}>Concepts</h2>
             <ul className={styles.list}>
-              {CONCEPT_ROUTES.slice(0, 3).map((c) => (
+              {CONCEPT_ROUTES.slice(0, 4).map((c) => (
                 <li key={c.id}>
                   <Link to={c.path} className={styles.link}>
                     <span className={styles.gate}>{c.gate}</span>
@@ -36,7 +36,7 @@ export function Footer() {
             <h2 className={styles.colTitleHidden}>Concepts (suite)</h2>
             <div className={styles.colSpacer} aria-hidden="true" />
             <ul className={styles.list}>
-              {CONCEPT_ROUTES.slice(3).map((c) => (
+              {CONCEPT_ROUTES.slice(4).map((c) => (
                 <li key={c.id}>
                   <Link to={c.path} className={styles.link}>
                     <span className={styles.gate}>{c.gate}</span>
@@ -74,7 +74,7 @@ export function Footer() {
 
       <div className={styles.baseline}>
         <span>Démonstrations de théorie des jeux · {new Date().getFullYear()}</span>
-        <span>Les six concepts sont reliés : aucune page n'est un cul-de-sac.</span>
+        <span>Les sept concepts sont reliés : aucune page n'est un cul-de-sac.</span>
       </div>
     </footer>
   );

@@ -79,7 +79,7 @@ export default function SequentialGamesPage() {
   return (
     <ConceptPage
       conceptId="sequential"
-      conceptNumber={5}
+      conceptNumber={6}
       category={sequentialContent.category}
       summary={sequentialContent.summary}
       demoHint="Résous l'arbre : le chemin d'équilibre s'allume branche par branche jusqu'à la feuille retenue."

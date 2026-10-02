@@ -20,6 +20,12 @@
 .edgeExemple {
   stroke-width: 6;
 }
+/* Variante : même jeu, un gain déplacé — un trait plein, mais pointillé serré. */
+.edgeVariante {
+  stroke-width: 4;
+  stroke-dasharray: 0.5 8;
+  stroke-linecap: round;
+}
 .edgeExtension {
   stroke-width: 3;
 }

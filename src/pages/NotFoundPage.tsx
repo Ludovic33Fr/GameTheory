@@ -14,7 +14,7 @@ export default function NotFoundPage() {
           <h1 className={styles.title}>Cette porte n'existe pas</h1>
           <p className={styles.lostBody}>
             L'adresse demandée ne correspond à aucune destination du terminal. Le panneau
-            ci-dessous mène aux six concepts.
+            ci-dessous mène aux sept concepts.
           </p>
           <div className={styles.lostActions}>
             <Link to="/" className={styles.count}>

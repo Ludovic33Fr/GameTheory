@@ -114,7 +114,7 @@ export default function IteratedPDPage() {
   return (
     <ConceptPage
       conceptId="iterated"
-      conceptNumber={4}
+      conceptNumber={5}
       category={iteratedPDContent.category}
       summary={iteratedPDContent.summary}
       demoHint="Engage des stratégies, lance le tournoi : le classement bascule à chaque nouvelle exécution."

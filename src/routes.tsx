@@ -7,6 +7,7 @@ import WhichGamePage from './pages/WhichGamePage';
 import GameSheetPage from './pages/GameSheetPage';
 import PrisonersDilemmaPage from './pages/concepts/PrisonersDilemma';
 import NashEquilibriumPage from './pages/concepts/NashEquilibrium';
+import StagHuntPage from './pages/concepts/StagHunt';
 import MixedStrategiesPage from './pages/concepts/MixedStrategies';
 import IteratedPDPage from './pages/concepts/IteratedPD';
 import SequentialGamesPage from './pages/concepts/SequentialGames';
@@ -23,6 +24,7 @@ const router = createBrowserRouter([
   { path: '/quel-jeu/:gameId', element: <GameSheetPage /> },
   { path: '/dilemme-prisonnier', element: <PrisonersDilemmaPage /> },
   { path: '/equilibre-nash', element: <NashEquilibriumPage /> },
+  { path: '/chasse-au-cerf', element: <StagHuntPage /> },
   { path: '/strategies-mixtes', element: <MixedStrategiesPage /> },
   { path: '/dilemme-itere', element: <IteratedPDPage /> },
   { path: '/jeux-sequentiels', element: <SequentialGamesPage /> },

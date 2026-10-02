@@ -28,7 +28,7 @@ export function Layout({ children, crumbs, title }: LayoutProps) {
   }, [pathname]);
 
   useEffect(() => {
-    document.title = title ? `${title} — ${SITE}` : `${SITE} — six concepts de théorie des jeux`;
+    document.title = title ? `${title} — ${SITE}` : `${SITE} — sept concepts de théorie des jeux`;
   }, [title]);
 
   return (

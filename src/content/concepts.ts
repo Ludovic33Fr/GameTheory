@@ -1,7 +1,7 @@
 import type { PictogramId } from '../components/Sign';
 
 /**
- * Le réseau des six concepts. C'est le contenu principal du site : une page
+ * Le réseau des sept concepts. C'est le contenu principal du site : une page
  * isolée est un échec, la correspondance est ce qu'on vient chercher.
  * Les numéros sont des numéros de porte — ils identifient une destination,
  * et l'ordre est celui dans lequel les concepts s'appuient les uns sur les autres.
@@ -9,10 +9,11 @@ import type { PictogramId } from '../components/Sign';
 export const CONCEPT_ROUTES = [
   { id: 'prisoners', gate: '01', path: '/dilemme-prisonnier', title: 'Dilemme du prisonnier', icon: 'prisoners', lines: ['Dilemme du', 'prisonnier'] },
   { id: 'nash', gate: '02', path: '/equilibre-nash', title: 'Équilibre de Nash', icon: 'nash', lines: ['Équilibre', 'de Nash'] },
-  { id: 'mixed', gate: '03', path: '/strategies-mixtes', title: 'Stratégies mixtes', icon: 'mixed', lines: ['Stratégies', 'mixtes'] },
-  { id: 'iterated', gate: '04', path: '/dilemme-itere', title: 'Dilemme du prisonnier itéré', icon: 'iterated', lines: ['Dilemme du prisonnier', 'itéré'] },
-  { id: 'sequential', gate: '05', path: '/jeux-sequentiels', title: 'Jeux séquentiels', icon: 'sequential', lines: ['Jeux', 'séquentiels'] },
-  { id: 'commons', gate: '06', path: '/biens-communs', title: 'Tragédie des biens communs', icon: 'commons', lines: ['Tragédie des', 'biens communs'] },
+  { id: 'staghunt', gate: '03', path: '/chasse-au-cerf', title: 'Chasse au cerf', icon: 'staghunt', lines: ['Chasse', 'au cerf'] },
+  { id: 'mixed', gate: '04', path: '/strategies-mixtes', title: 'Stratégies mixtes', icon: 'mixed', lines: ['Stratégies', 'mixtes'] },
+  { id: 'iterated', gate: '05', path: '/dilemme-itere', title: 'Dilemme du prisonnier itéré', icon: 'iterated', lines: ['Dilemme du prisonnier', 'itéré'] },
+  { id: 'sequential', gate: '06', path: '/jeux-sequentiels', title: 'Jeux séquentiels', icon: 'sequential', lines: ['Jeux', 'séquentiels'] },
+  { id: 'commons', gate: '07', path: '/biens-communs', title: 'Tragédie des biens communs', icon: 'commons', lines: ['Tragédie des', 'biens communs'] },
 ] as const satisfies readonly {
   id: string;
   gate: string;
@@ -31,10 +32,11 @@ export type ConceptRoute = (typeof CONCEPT_ROUTES)[number];
  * dessine six traits identiques ne dit rien ; celui-ci dit de quelle nature
  * est le lien qu'on s'apprête à prendre.
  */
-export type EdgeKind = 'exemple' | 'extension' | 'repetition' | 'echelle';
+export type EdgeKind = 'exemple' | 'variante' | 'extension' | 'repetition' | 'echelle';
 
 export const EDGE_KIND_LABEL: Record<EdgeKind, string> = {
   exemple: 'Exemple canonique',
+  variante: 'Variante',
   extension: 'Extension',
   repetition: 'Répétition',
   echelle: 'Passage à N joueurs',
@@ -48,6 +50,8 @@ export interface ConceptEdge {
 
 export const CONCEPT_EDGES: ConceptEdge[] = [
   { from: 'prisoners', to: 'nash', kind: 'exemple' },
+  { from: 'staghunt', to: 'nash', kind: 'exemple' },
+  { from: 'staghunt', to: 'prisoners', kind: 'variante' },
   { from: 'mixed', to: 'nash', kind: 'extension' },
   { from: 'sequential', to: 'nash', kind: 'extension' },
   { from: 'prisoners', to: 'iterated', kind: 'repetition' },
