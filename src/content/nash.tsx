@@ -18,6 +18,11 @@ export const nashContent = {
         Un même jeu peut avoir zéro, un, ou plusieurs équilibres. Et l'équilibre n'est pas toujours optimal
         au sens collectif — le dilemme du prisonnier est l'illustration la plus connue de ce paradoxe.
       </p>
+      <p style={{ marginTop: 'var(--space-3)' }}>
+        La chasse au cerf montre l'autre face du problème : deux équilibres, (Cerf, Cerf) et (Lièvre, Lièvre).
+        Le premier est meilleur pour tous, le second est sans risque. Rien dans la définition de l'équilibre
+        ne dit lequel sera joué — c'est la confiance entre les joueurs, pas leur calcul, qui tranche.
+      </p>
     </>
   ),
 

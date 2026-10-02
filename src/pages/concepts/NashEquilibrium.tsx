@@ -44,6 +44,27 @@ const PRESETS: Preset[] = [
     ],
   },
   {
+    id: 'stag-hunt',
+    title: 'Chasse au cerf',
+    rowLabels: ['Cerf', 'Lièvre'],
+    colLabels: ['Cerf', 'Lièvre'],
+    rowPlayer: 'Toi',
+    colPlayer: 'Partenaire',
+    story:
+      "Le cerf ne se prend qu'à deux ; le lièvre se prend seul. Si tu pars au cerf et que l'autre part au lièvre, tu rentres bredouille. Contrairement au dilemme du prisonnier, personne ne gagne à trahir une coopération établie — le problème est d'oser s'y engager.",
+    insight: "2 équilibres : l'un meilleur, l'autre plus sûr.",
+    payoffs: [
+      [
+        [4, 4],
+        [0, 3],
+      ],
+      [
+        [3, 0],
+        [3, 3],
+      ],
+    ],
+  },
+  {
     id: 'battle-sexes',
     title: 'Bataille des sexes',
     rowLabels: ['Opéra', 'Match'],
