@@ -29,6 +29,10 @@
   border-radius: var(--r-card);
   padding: var(--space-4);
 }
+/* Carte de réglage : elle précède la démonstration qu'elle gouverne. */
+.setup {
+  margin-bottom: var(--space-5);
+}
 .cardTitle {
   font-size: var(--t-2xs);
   font-weight: 700;
@@ -86,6 +90,17 @@
   display: flex;
   flex-direction: column;
   gap: var(--space-2);
+}
+/* La même liste, étalée en bande pleine largeur : un réglage posé en amont
+   de la démonstration plutôt qu'une colonne à côté d'elle. */
+.choicesRow {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
+  align-items: stretch;
+  gap: var(--space-2);
+}
+.choicesRow .choice {
+  height: 100%;
 }
 .choice {
   display: block;

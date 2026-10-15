@@ -88,7 +88,7 @@ function SingleRoundDemo() {
 }
 
 function IteratedPlayground() {
-  const [strategyId, setStrategyId] = useState<string>(titForTat.id);
+  const [strategyId, setStrategyId] = useState<string>(randomStrat.id);
   const [history, setHistory] = useState<Round[]>([]);
 
   const strategy = ITERATED_STRATEGIES.find((s) => s.id === strategyId)!;
@@ -117,7 +117,7 @@ function IteratedPlayground() {
   /* Troisième option : une stratégie joue à ta place pendant AUTO_ROUNDS tours,
      à la suite de ce qui a déjà été joué. Les tours se révèlent un à un. */
   const reduced = useReducedMotion();
-  const [myStrategyId, setMyStrategyId] = useState<string>(titForTat.id);
+  const [myStrategyId, setMyStrategyId] = useState<string>(randomStrat.id);
   const [running, setRunning] = useState(false);
   const timer = useRef<number | null>(null);
 
@@ -187,105 +187,105 @@ function IteratedPlayground() {
         le score à zéro.
       </p>
 
+      {/* Contre qui on joue : un réglage en amont, commun au jeu manuel et aux
+          tours automatiques. D'où la bande pleine largeur, avant le partage. */}
+      <div className={`${d.card} ${d.setup}`}>
+        <div className={d.cardTitle}>Stratégie de l'adversaire</div>
+        <div className={`${d.choices} ${d.choicesRow}`}>
+          {ITERATED_STRATEGIES.map((s) => {
+            const active = s.id === strategyId;
+            return (
+              <button
+                key={s.id}
+                onClick={() => changeStrategy(s.id)}
+                className={`${d.choice} ${active ? d.choiceOn : ''}`}
+                aria-pressed={active}
+              >
+                <span className={d.choiceName}>
+                  <span className={`${d.mark} ${active ? d.markOn : ''}`} />
+                  {s.name}
+                </span>
+                <span className={d.choiceDesc}>{s.description}</span>
+              </button>
+            );
+          })}
+        </div>
+      </div>
+
       <div className="demoSplit">
         <div className={d.card}>
-          <div className={d.cardTitle}>Stratégie de l'adversaire</div>
-          <div className={d.choices}>
-            {ITERATED_STRATEGIES.map((s) => {
-              const active = s.id === strategyId;
-              return (
-                <button
-                  key={s.id}
-                  onClick={() => changeStrategy(s.id)}
-                  className={`${d.choice} ${active ? d.choiceOn : ''}`}
-                  aria-pressed={active}
-                >
-                  <span className={d.choiceName}>
-                    <span className={`${d.mark} ${active ? d.markOn : ''}`} />
-                    {s.name}
-                  </span>
-                  <span className={d.choiceDesc}>{s.description}</span>
-                </button>
-              );
-            })}
+          <div className={d.cardTitle}>Joue ton coup</div>
+          <div className={d.actions}>
+            <button onClick={() => play('C')} className={d.play} disabled={running}>
+              Coopérer
+            </button>
+            <button
+              onClick={() => play('D')}
+              className={`${d.play} ${d.playAlt}`}
+              disabled={running}
+            >
+              Trahir
+            </button>
+            <button onClick={reset} disabled={history.length === 0} className={d.reset}>
+              <Pictogram id="iterated" size={14} />
+              Remettre à zéro
+            </button>
           </div>
-        </div>
 
-        <div className={d.stack}>
-          <div className={d.card}>
-            <div className={d.cardTitle}>Joue ton coup</div>
-            <div className={d.actions}>
-              <button onClick={() => play('C')} className={d.play} disabled={running}>
-                Coopérer
-              </button>
-              <button
-                onClick={() => play('D')}
-                className={`${d.play} ${d.playAlt}`}
+          <div className={d.auto}>
+            <label htmlFor="my-strategy" className={d.autoLabel}>
+              Ou laisse une stratégie jouer pour toi
+            </label>
+            <div className={d.autoRow}>
+              <select
+                id="my-strategy"
+                className={d.select}
+                value={myStrategyId}
+                onChange={(e) => setMyStrategyId(e.target.value)}
                 disabled={running}
               >
-                Trahir
+                {ITERATED_STRATEGIES.map((s) => (
+                  <option key={s.id} value={s.id}>
+                    {s.name}
+                  </option>
+                ))}
+              </select>
+              <button
+                onClick={runAuto}
+                disabled={running}
+                className={d.play}
+                style={{ flex: 'none' }}
+              >
+                {running ? 'Tours en cours…' : `Lancer ${AUTO_ROUNDS} tours`}
               </button>
-              <button onClick={reset} disabled={history.length === 0} className={d.reset}>
-                <Pictogram id="iterated" size={14} />
-                Remettre à zéro
-              </button>
             </div>
-
-            <div className={d.auto}>
-              <label htmlFor="my-strategy" className={d.autoLabel}>
-                Ou laisse une stratégie jouer pour toi
-              </label>
-              <div className={d.autoRow}>
-                <select
-                  id="my-strategy"
-                  className={d.select}
-                  value={myStrategyId}
-                  onChange={(e) => setMyStrategyId(e.target.value)}
-                  disabled={running}
-                >
-                  {ITERATED_STRATEGIES.map((s) => (
-                    <option key={s.id} value={s.id}>
-                      {s.name}
-                    </option>
-                  ))}
-                </select>
-                <button
-                  onClick={runAuto}
-                  disabled={running}
-                  className={d.play}
-                  style={{ flex: 'none' }}
-                >
-                  {running ? 'Tours en cours…' : `Lancer ${AUTO_ROUNDS} tours`}
-                </button>
-              </div>
-            </div>
-
-            <div className={d.stats}>
-              <Stat label="Toi" value={cumulative.totals.you} lead={youLead} />
-              <Stat label="Adversaire" value={cumulative.totals.opp} lead={oppLead} />
-              <Stat label="Tours" value={history.length} />
-            </div>
-
-            {last && (
-              <div className={d.last}>
-                <span>Tour précédent :</span>
-                <span className={d.lastStrong}>{lastLabelYou}</span>
-                <span>/</span>
-                <span className={d.lastStrong}>{lastLabelOpp}</span>
-                <Pictogram id="arrowRight" size={12} />
-                <span className={d.lastPayoff}>
-                  ({last.yourGain}, {last.oppGain})
-                </span>
-              </div>
-            )}
           </div>
 
-          <CumulativeChart
-            you={cumulative.you}
-            opp={cumulative.opp}
-            caption="Plus haut = mieux (les paiements sont des années de prison, donc négatifs ou nuls)."
-          />
+          <div className={d.stats}>
+            <Stat label="Toi" value={cumulative.totals.you} lead={youLead} />
+            <Stat label="Adversaire" value={cumulative.totals.opp} lead={oppLead} />
+            <Stat label="Tours" value={history.length} />
+          </div>
+
+          {last && (
+            <div className={d.last}>
+              <span>Tour précédent :</span>
+              <span className={d.lastStrong}>{lastLabelYou}</span>
+              <span>/</span>
+              <span className={d.lastStrong}>{lastLabelOpp}</span>
+              <Pictogram id="arrowRight" size={12} />
+              <span className={d.lastPayoff}>
+                ({last.yourGain}, {last.oppGain})
+              </span>
+            </div>
+          )}
         </div>
+
+        <CumulativeChart
+          you={cumulative.you}
+          opp={cumulative.opp}
+          caption="Plus haut = mieux (les paiements sont des années de prison, donc négatifs ou nuls)."
+        />
       </div>
     </section>
   );
